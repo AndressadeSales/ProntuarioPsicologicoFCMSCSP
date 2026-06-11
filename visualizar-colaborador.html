@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Colaborador | PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+            document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="visualizar-colaborador.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content visualizar-colaborador">
+
+        <div class="cabecalho-pagina">
+            <div>
+                <h1>Visualizar Colaborador</h1>
+                <p>Confira os dados cadastrais e de acesso do colaborador.</p>
+            </div>
+
+            <button class="btn-voltar" onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-arrow-left"></i>
+                Voltar
+            </button>
+        </div>
+
+        <section class="card-perfil-colaborador">
+            <div class="avatar-colaborador">
+                <i class="fa-solid fa-user-doctor"></i>
+            </div>
+
+            <div class="info-principal-colaborador">
+                <h2 id="nomeColaborador">Mariana Alves Pereira</h2>
+
+                <div class="linha-tags">
+                    <span class="tag-cargo" id="cargoColaborador">Psicóloga</span>
+                    <span class="tag-status ativo" id="statusColaborador">Ativo</span>
+                </div>
+
+                <p><i class="fa-solid fa-id-card"></i> <span id="registroColaborador">CRP 06/123456</span></p>
+                <p><i class="fa-solid fa-envelope"></i> <span id="emailColaborador">mariana.pereira@psisaude.com</span></p>
+                <p><i class="fa-solid fa-phone"></i> <span id="telefoneColaborador">(18) 99745-2188</span></p>
+            </div>
+        </section>
+
+        <section class="grid-dados-colaborador">
+
+            <div class="card-dados">
+                <h3><i class="fa-solid fa-user"></i> Dados Pessoais</h3>
+
+                <div class="linha-dado">
+                    <span>Nome completo</span>
+                    <strong id="dadoNome">Mariana Alves Pereira</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>CPF</span>
+                    <strong id="dadoCpf">123.456.789-10</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Data de nascimento</span>
+                    <strong id="dadoNascimento">14/08/1992</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Sexo</span>
+                    <strong id="dadoSexo">Feminino</strong>
+                </div>
+            </div>
+
+            <div class="card-dados">
+                <h3><i class="fa-solid fa-briefcase"></i> Dados Profissionais</h3>
+
+                <div class="linha-dado">
+                    <span>Cargo/Função</span>
+                    <strong id="dadoCargo">Psicóloga</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Registro profissional</span>
+                    <strong id="dadoRegistro">CRP 06/123456</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Especialidade</span>
+                    <strong id="dadoEspecialidade">Psicologia Clínica</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Data de admissão</span>
+                    <strong id="dadoAdmissao">05/02/2024</strong>
+                </div>
+            </div>
+            
+            <div class="card-dados">
+
+                <h3>
+                    <i class="fa-solid fa-user-tie"></i>
+                    Supervisão
+                </h3>
+
+                <div class="linha-dado">
+                    <span>Supervisor responsável</span>
+                    <strong id="dadoSupervisor">
+                        Não informado
+                    </strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Alunos vinculados</span>
+                    <strong id="dadoQuantidadeAlunos">
+                        0
+                    </strong>
+                </div>
+
+            </div>
+
+            <div class="card-dados">
+                <h3><i class="fa-solid fa-location-dot"></i> Endereço</h3>
+
+                <div class="linha-dado">
+                    <span>CEP</span>
+                    <strong id="dadoCep">17900-000</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Endereço</span>
+                    <strong id="dadoEndereco">Rua das Palmeiras, 245</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Bairro</span>
+                    <strong id="dadoBairro">Centro</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Cidade/UF</span>
+                    <strong id="dadoCidade">Dracena/SP</strong>
+                </div>
+            </div>
+
+            <div class="card-dados">
+                <h3><i class="fa-solid fa-lock"></i> Acesso ao Sistema</h3>
+
+                <div class="linha-dado">
+                    <span>Usuário</span>
+                    <strong id="dadoUsuario">mariana.pereira</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Perfil de acesso</span>
+                    <strong id="dadoPerfil">Profissional</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Status</span>
+                    <strong id="dadoStatus" class="texto-ativo">Ativo</strong>
+                </div>
+
+                <div class="linha-dado">
+                    <span>Último acesso</span>
+                    <strong id="dadoUltimoAcesso">09/06/2026 às 15:42</strong>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="card-observacoes">
+            <h3><i class="fa-solid fa-note-sticky"></i> Observações</h3>
+
+            <p id="observacoesColaborador">
+                Colaboradora cadastrada para atendimentos psicológicos presenciais e online.
+            </p>
+        </section>
+
+        <div class="acoes-colaborador">
+            <button class="btn-editar" onclick="editarColaborador()">
+                <i class="fa-solid fa-pen"></i>
+                Editar colaborador
+            </button>
+
+            <button class="btn-inativar" onclick="inativarColaborador()">
+                <i class="fa-solid fa-user-slash"></i>
+                Inativar colaborador
+            </button>
+
+            <button class="btn-voltar-lista" onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-list"></i>
+                Voltar para lista
+            </button>
+        </div>
+
+    </main>
+
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="visualizar-colaborador.js"></script>
+
+</body>
+</html>

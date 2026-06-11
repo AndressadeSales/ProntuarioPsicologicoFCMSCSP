@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atendimento - PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+        document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="atendimento.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+        
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="page-header">
+            <div>
+                <h2>Atendimento</h2>
+                <p>Registro do atendimento psicológico.</p>
+            </div>
+
+            <span class="auto-save" id="autoSaveInfo">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Salvamento automático ativo
+            </span>
+        </div>
+
+        <section class="card">
+            <h3><i class="fa-solid fa-user"></i> Dados do Paciente</h3>
+
+            <div class="info-grid">
+                <div>
+                    <span>Nome</span>
+                    <strong id="pacienteNome">-</strong>
+                </div>
+
+                <div>
+                    <span>Idade</span>
+                    <strong id="pacienteIdade">-</strong>
+                </div>
+
+                <div>
+                    <span>CPF</span>
+                    <strong id="pacienteCpf">-</strong>
+                </div>
+
+                <div>
+                    <span>CNS</span>
+                    <strong id="pacienteCns">-</strong>
+                </div>
+
+                <div>
+                    <span>Telefone</span>
+                    <strong id="pacienteTelefone">-</strong>
+                </div>
+
+                <div>
+                    <span>Responsável</span>
+                    <strong id="pacienteResponsavel">-</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="card dados-atendimento-bloqueado">
+            <h3><i class="fa-solid fa-calendar-check"></i> Dados do Atendimento</h3>
+
+            <div class="form-grid four">
+                <div>
+                    <label>Profissional</label>
+                    <input type="text" id="profissionalAtendimento" readonly>
+                </div>
+
+                <div>
+                    <label>Data</label>
+                    <input type="text" id="dataAtendimento" readonly>
+                </div>
+
+                <div>
+                    <label>Hora início</label>
+                    <input type="text" id="horaInicio" readonly>
+                </div>
+
+                <div>
+                    <label>Hora término</label>
+                    <input type="text" id="horaTermino" readonly>
+                </div>
+            </div>
+
+            <label>Tipo de atendimento</label>
+
+            <div class="radio-row tipo-atendimento-bloqueado">
+                <label>
+                    <input type="radio" name="tipoAtendimento" value="Presencial" checked disabled>
+                    Presencial
+                </label>
+
+                <label>
+                    <input type="radio" name="tipoAtendimento" value="Online" disabled>
+                    Online
+                </label>
+
+                <label>
+                    <input type="radio" name="tipoAtendimento" value="Entre profissionais" disabled>
+                    Entre profissionais
+                </label>
+            </div>
+        </section>
+
+        <section class="card consulta-card">
+            <h3><i class="fa-solid fa-comments"></i> Consulta</h3>
+
+            <label>Queixa Principal</label>
+            <textarea id="queixaPrincipal" placeholder="Motivo principal do atendimento atual."></textarea>
+
+            <label>Evolução do Atendimento</label>
+            <textarea id="evolucaoAtendimento" placeholder="Descrição detalhada da sessão."></textarea>
+
+            <label>Intervenções Realizadas</label>
+            <textarea id="intervencoesRealizadas" placeholder="Técnicas e intervenções utilizadas."></textarea>
+
+            <label>Observações Complementares</label>
+            <textarea id="observacoesComplementares"></textarea>
+
+            <div class="orientacoes-header">
+                <label>Orientações ao paciente</label>
+
+                <button class="btn-outline" onclick="gerarTextoOrientacoes()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Gerar texto padrão
+                </button>
+
+                <button class="btn-outline" onclick="imprimirOrientacoes()">
+                    <i class="fa-solid fa-print"></i>
+                    Imprimir orientações
+                </button>
+            </div>
+
+            <textarea id="orientacoesPaciente" placeholder="Texto editável para impressão e entrega ao paciente."></textarea>
+
+            <div class="cid-na-consulta">
+                <h3><i class="fa-solid fa-tags"></i> Adicionar CID</h3>
+
+                <div class="form-grid two">
+                    <div>
+                        <label>Código CID</label>
+                        <input type="text" id="codigoCid" placeholder="Ex.: F41.1">
+                    </div>
+
+                    <div>
+                        <label>Descrição</label>
+                        <input type="text" id="descricaoCid">
+                    </div>
+                </div>
+
+                <button class="btn-secondary" onclick="adicionarCid()">
+                    <i class="fa-solid fa-plus"></i>
+                    Adicionar CID
+                </button>
+
+                <div class="lista-itens" id="listaCid"></div>
+            </div>
+
+            <div class="conduta-final">
+                <label>Conduta</label>
+
+                <div class="checkbox-grid condutas-grid">
+                    <label><input type="checkbox" name="condutasRapidas" value="Atendimento individual"> Atendimento individual</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Atendimento familiar"> Atendimento familiar</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Atendimento em grupo"> Atendimento em grupo</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Psicoeducação"> Psicoeducação</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Orientação psicológica"> Orientação psicológica</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Interconsulta"> Interconsulta</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Discussão de caso"> Discussão de caso</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Encaminhamento"> Encaminhamento</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Retorno agendado"> Retorno agendado</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Alta"> Alta</label>
+                    <label><input type="checkbox" name="condutasRapidas" value="Atendimento compartilhado"> Atendimento compartilhado</label>
+                </div>
+
+                <textarea id="conduta" placeholder="Detalhamento da conduta."></textarea>
+            </div>
+        </section>
+
+        <section class="accordion" data-accordion="anamnese">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div>
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <strong>Anamnese</strong>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="accordion-content">
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-circle-question"></i> Queixa Principal</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <textarea id="anamneseQueixaPrincipal" placeholder="Motivo exato que levou a pessoa a buscar ajuda naquele momento."></textarea>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-notes-medical"></i> História da Moléstia Atual</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <textarea id="historiaMolestiaAtual" placeholder="Quando os sintomas começaram, intensidade, agravantes e impacto na rotina."></textarea>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-people-roof"></i> História Familiar</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <textarea id="historiaFamiliar" placeholder="Composição familiar, dinâmica e histórico de problemas físicos ou psicológicos."></textarea>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-child-reaching"></i> Histórico de Desenvolvimento</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <textarea id="historicoDesenvolvimento" placeholder="Gestação, marcos motores, linguagem e histórico escolar."></textarea>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-earth-americas"></i> Histórico Pessoal e Social</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <textarea id="historicoPessoalSocial" placeholder="Relações, sexualidade, hábitos, sono, alimentação, lazer e ocupação."></textarea>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-hospital-user"></i> Tratamentos Anteriores</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <textarea id="tratamentosAnteriores" placeholder="Intervenções psicológicas ou psiquiátricas anteriores e resultados."></textarea>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-weight-scale"></i> Medições</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <div class="form-grid three">
+                            <div>
+                                <label>Peso (kg)</label>
+                                <input type="number" id="peso" step="0.1" oninput="calcularIMC()">
+                            </div>
+
+                            <div>
+                                <label>Altura (cm)</label>
+                                <input type="number" id="altura" step="1" oninput="calcularIMC()">
+                            </div>
+
+                            <div>
+                                <label>IMC</label>
+                                <input type="text" id="imc" readonly>
+                            </div>
+                        </div>
+
+                        <div class="imc-status" id="classificacaoImc">
+                            Informe peso e altura para calcular o IMC.
+                        </div>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-triangle-exclamation"></i> Alergias/Reações Adversas</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <div class="form-grid three">
+                            <div>
+                                <label>Descrição</label>
+                                <input type="text" id="alergiaDescricao">
+                            </div>
+
+                            <div>
+                                <label>Tipo</label>
+                                <select id="alergiaTipo">
+                                    <option>Medicamento</option>
+                                    <option>Alimento</option>
+                                    <option>Ambiente</option>
+                                    <option>Outro</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label>Criticidade</label>
+                                <select id="alergiaCriticidade">
+                                    <option>Baixa</option>
+                                    <option>Média</option>
+                                    <option>Alta</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn-secondary" onclick="adicionarAlergia()">
+                            <i class="fa-solid fa-plus"></i>
+                            Adicionar alergia
+                        </button>
+
+                        <div class="lista-itens" id="listaAlergias"></div>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-list-check"></i> Lista de Problemas/Condições</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <div class="form-grid two">
+                            <div>
+                                <label>CIAP 2</label>
+                                <input type="text" id="problemaCiap" placeholder="Ex.: W05">
+                            </div>
+
+                            <div>
+                                <label>CID 10</label>
+                                <input type="text" id="problemaCid" placeholder="Ex.: F41.1">
+                            </div>
+                        </div>
+
+                        <label>Situação</label>
+
+                        <div class="radio-row">
+                            <label><input type="radio" name="problemaSituacao" value="Ativo" checked> Ativo</label>
+                            <label><input type="radio" name="problemaSituacao" value="Latente"> Latente</label>
+                            <label><input type="radio" name="problemaSituacao" value="Resolvido"> Resolvido</label>
+                        </div>
+
+                        <div class="form-grid two">
+                            <div>
+                                <label>Data de início</label>
+                                <input type="date" id="problemaDataInicio">
+                            </div>
+
+                            <div>
+                                <label>Descrição</label>
+                                <input type="text" id="problemaDescricao">
+                            </div>
+                        </div>
+
+                        <label>Observações</label>
+                        <textarea id="problemaObservacao" maxlength="200"></textarea>
+
+                        <button class="btn-secondary" onclick="adicionarProblema()">
+                            <i class="fa-solid fa-plus"></i>
+                            Adicionar problema/condição
+                        </button>
+
+                        <div class="lista-itens" id="listaProblemas"></div>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-flask"></i> Resultados de Exames</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <div class="form-grid three">
+                            <div>
+                                <label>Nome do exame</label>
+                                <input type="text" id="resultadoExameNome">
+                            </div>
+
+                            <div>
+                                <label>Resultado</label>
+                                <input type="text" id="resultadoExameValor">
+                            </div>
+
+                            <div>
+                                <label>Data</label>
+                                <input type="date" id="resultadoExameData">
+                            </div>
+                        </div>
+
+                        <button class="btn-secondary" onclick="adicionarResultadoExame()">
+                            <i class="fa-solid fa-plus"></i>
+                            Adicionar resultado
+                        </button>
+
+                        <div class="lista-itens" id="listaResultadosExames"></div>
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-pills"></i> Medicamentos em Uso</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+
+                        <section class="sub-accordion interno">
+                            <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                                <strong>Medicações Psiquiátricas</strong>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+
+                            <div class="sub-accordion-content">
+                                <div class="form-grid three">
+                                    <div>
+                                        <label>Medicamento</label>
+                                        <input type="text" id="psiqNome">
+                                    </div>
+
+                                    <div>
+                                        <label>Dose</label>
+                                        <input type="text" id="psiqDose">
+                                    </div>
+
+                                    <div>
+                                        <label>Frequência</label>
+                                        <input type="text" id="psiqFrequencia">
+                                    </div>
+
+                                    <div>
+                                        <label>Prescritor</label>
+                                        <input type="text" id="psiqPrescritor">
+                                    </div>
+
+                                    <div>
+                                        <label>Data de início</label>
+                                        <input type="date" id="psiqInicio">
+                                    </div>
+
+                                    <div>
+                                        <label>Uso atual</label>
+                                        <select id="psiqUsoAtual">
+                                            <option>Sim</option>
+                                            <option>Não</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <label>Observações</label>
+                                <textarea id="psiqObservacoes"></textarea>
+
+                                <button class="btn-secondary" onclick="adicionarMedicamentoUso('psiquiatrica')">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Adicionar
+                                </button>
+
+                                <div class="lista-itens" id="listaMedicamentosPsiquiatricos"></div>
+                            </div>
+                        </section>
+
+                        <section class="sub-accordion interno">
+                            <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                                <strong>Medicações Gerais</strong>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+
+                            <div class="sub-accordion-content">
+                                <div class="form-grid three">
+                                    <div>
+                                        <label>Medicamento</label>
+                                        <input type="text" id="geralNome">
+                                    </div>
+
+                                    <div>
+                                        <label>Dose</label>
+                                        <input type="text" id="geralDose">
+                                    </div>
+
+                                    <div>
+                                        <label>Frequência</label>
+                                        <input type="text" id="geralFrequencia">
+                                    </div>
+
+                                    <div>
+                                        <label>Prescritor</label>
+                                        <input type="text" id="geralPrescritor">
+                                    </div>
+
+                                    <div>
+                                        <label>Motivo do uso</label>
+                                        <input type="text" id="geralMotivo">
+                                    </div>
+
+                                    <div>
+                                        <label>Data de início</label>
+                                        <input type="date" id="geralInicio">
+                                    </div>
+                                </div>
+
+                                <label>Observações</label>
+                                <textarea id="geralObservacoes"></textarea>
+
+                                <button class="btn-secondary" onclick="adicionarMedicamentoUso('geral')">
+                                    <i class="fa-solid fa-plus"></i>
+                                    Adicionar
+                                </button>
+
+                                <div class="lista-itens" id="listaMedicamentosGerais"></div>
+                            </div>
+                        </section>
+
+                    </div>
+                </section>
+
+                <section class="sub-accordion">
+                    <div class="sub-accordion-header" onclick="toggleSubAccordion(this)">
+                        <strong><i class="fa-solid fa-venus"></i> DUM</strong>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <div class="sub-accordion-content">
+                        <label>DUM - Data da Última Menstruação</label>
+                        <input type="date" id="dum">
+                    </div>
+                </section>
+
+            </div>
+        </section>
+
+    <div class="abas-atendimento">
+
+        <button class="aba ativa" onclick="mostrarAba('documentos', this)">
+            Anexar Documentos
+        </button>
+
+        <button class="aba" onclick="mostrarAba('exames', this)">
+            Solicitação de Exames
+        </button>
+
+        <button class="aba" onclick="mostrarAba('prescricao', this)">
+            Prescrição de Medicamentos
+        </button>
+
+        <button class="aba" onclick="mostrarAba('atestados', this)">
+            Atestados
+        </button>
+
+        <button class="aba" onclick="mostrarAba('encaminhamento', this)">
+            Encaminhamento
+        </button>
+
+    </div>
+
+
+        <section class="accordion tab-section" data-accordion="documentos">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div>
+                    <i class="fa-solid fa-paperclip"></i>
+                    <strong>Anexar Documentos</strong>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="accordion-content">
+                <label>Selecionar documentos/laudos</label>
+                <input type="file" id="arquivoDocumento" multiple>
+
+                <button class="btn-secondary" onclick="adicionarDocumento()">
+                    <i class="fa-solid fa-plus"></i>
+                    Adicionar documento
+                </button>
+
+                <div class="lista-itens" id="listaDocumentos"></div>
+            </div>
+        </section>
+
+        <section class="accordion tab-section" data-accordion="exames">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div>
+                    <i class="fa-solid fa-vial"></i>
+                    <strong>Solicitação de Exames</strong>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="accordion-content">
+                <div class="toolbar">
+                    <button class="btn-secondary no-margin" onclick="abrirModalExame()">
+                        <i class="fa-solid fa-plus"></i>
+                        Adicionar solicitação
+                    </button>
+
+                    <div class="campo-pesquisa">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="pesquisaExames" placeholder="Pesquisar solicitação" oninput="renderizarExamesSolicitados()">
+                    </div>
+
+                    <label class="check-inline">
+                        <input type="checkbox" id="somenteExamesPendentes" onchange="renderizarExamesSolicitados()">
+                        Ver apenas pendentes
+                    </label>
+                </div>
+
+                <div class="historico-lista" id="listaExamesSolicitados"></div>
+            </div>
+        </section>
+
+        
+
+        <section class="accordion tab-section" data-accordion="prescricao">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div>
+                    <i class="fa-solid fa-pills"></i>
+                    <strong>Prescrição de Medicamentos</strong>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="accordion-content">
+                <div class="toolbar">
+                    <button class="btn-secondary no-margin" onclick="abrirModalPrescricao()">
+                        <i class="fa-solid fa-plus"></i>
+                        Adicionar prescrição
+                    </button>
+
+                    <div class="campo-pesquisa">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="pesquisaPrescricao" placeholder="Pesquise por medicamento" oninput="renderizarPrescricoes()">
+                    </div>
+
+                    <label class="check-inline">
+                        <input type="checkbox" id="somenteContinuos" onchange="renderizarPrescricoes()">
+                        Ver apenas uso contínuo
+                    </label>
+                </div>
+
+                <div class="historico-lista" id="listaPrescricoes"></div>
+            </div>
+        </section>
+
+        <section class="accordion tab-section" data-accordion="atestados">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div>
+                    <i class="fa-solid fa-file-lines"></i>
+                    <strong>Atestados</strong>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="accordion-content">
+                <div class="form-grid four">
+                    <div>
+                        <label>Modelo</label>
+                        <select id="atestadoModelo" onchange="gerarTextoAtestado()">
+                            <option>Padrão</option>
+                            <option>Comparecimento</option>
+                            <option>Acompanhante</option>
+                            <option>Afastamento</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="campo-data">
+                        <label>Data</label>
+                        <div class="campo-data-linha">
+                            <input type="text" id="atestadoData" readonly placeholder="dd/mm/aaaa">
+
+                            <button type="button" onclick="toggleCalendarioAtestado(event)">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </button>
+                        </div>
+
+                        <div class="mini-calendar closed" id="calendarioAtestado"></div>
+                    </div>
+
+                    <div>
+                        <label>Hora</label>
+                        <input type="time" id="atestadoHora" onchange="gerarTextoAtestado()">
+                    </div>
+
+                    <div>
+                        <label>Dias</label>
+                        <input type="number" id="atestadoDias" min="0" oninput="gerarTextoAtestado()">
+                    </div>
+
+                    <div>
+                        <label>CID10</label>
+                        <input type="text" id="atestadoCid" oninput="gerarTextoAtestado()">
+                    </div>
+
+                    <div>
+                        <label>E-mail</label>
+                        <input type="email" id="atestadoEmail" placeholder="email@exemplo.com">
+                    </div>
+                </div>
+
+                <label class="check-inline bloco-check">
+                    <input type="checkbox" id="atestadoDigital">
+                    Gerar e enviar atestado digital
+                </label>
+
+                <label>Texto do atestado</label>
+                <textarea id="textoAtestado" class="documento-texto"></textarea>
+
+                <div class="button-row botoes-atestado">
+                    <button type="button" class="btn-outline" onclick="gerarTextoAtestado()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Gerar texto padrão
+                    </button>
+
+                    <button type="button" class="btn-outline" onclick="imprimirTexto('Atestado', 'textoAtestado')">
+                        <i class="fa-solid fa-print"></i>
+                        Imprimir
+                    </button>
+
+                    <button type="button" class="btn-secondary" onclick="salvarAtestado()">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Salvar atestado
+                    </button>
+                </div>
+
+                <div class="historico-lista" id="listaAtestados"></div>
+            </div>
+        </section>
+
+        <section class="accordion tab-section" data-accordion="encaminhamento">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <div>
+                    <i class="fa-solid fa-share"></i>
+                    <strong>Encaminhamento</strong>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="accordion-content">
+                <label>Destino</label>
+
+                <div class="checkbox-grid">
+                    <label><input type="checkbox" value="CAPS" name="encaminhamento"> CAPS</label>
+                    <label><input type="checkbox" value="Psiquiatria" name="encaminhamento"> Psiquiatria</label>
+                    <label><input type="checkbox" value="UBS" name="encaminhamento"> UBS</label>
+                    <label><input type="checkbox" value="Assistência Social" name="encaminhamento"> Assistência Social</label>
+                    <label><input type="checkbox" value="Escola" name="encaminhamento"> Escola</label>
+                    <label><input type="checkbox" value="Conselho Tutelar" name="encaminhamento"> Conselho Tutelar</label>
+                    <label><input type="checkbox" value="Outro" name="encaminhamento"> Outro</label>
+                </div>
+
+                <label>Motivo do encaminhamento</label>
+                <textarea id="encaminhamentoMotivo"></textarea>
+
+                <label>Objetivo do encaminhamento</label>
+                <textarea id="encaminhamentoObjetivo"></textarea>
+
+                <label>Observações</label>
+                <textarea id="encaminhamentoObservacoes"></textarea>
+
+                <label>Texto do encaminhamento</label>
+                <textarea id="textoEncaminhamento" class="documento-texto"></textarea>
+
+                <div class="button-row botoes-encaminhamento">
+                    <button type="button" class="btn-outline" onclick="gerarTextoEncaminhamento()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Gerar documento
+                    </button>
+
+                    <button type="button" class="btn-outline" onclick="imprimirTexto('Encaminhamento', 'textoEncaminhamento')">
+                        <i class="fa-solid fa-print"></i>
+                        Imprimir encaminhamento
+                    </button>
+
+                    <button type="button" class="btn-secondary" onclick="salvarEncaminhamento()">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Salvar encaminhamento
+                    </button>
+                </div>
+
+                <div class="historico-lista" id="listaEncaminhamentos"></div>
+            </div>
+        </section>
+
+    <div class="footer-actions">
+        <button class="btn-voltar-texto" onclick="voltarLista()">
+            <i class="fa-solid fa-arrow-left"></i>
+            Voltar para Lista
+        </button>
+
+        <div class="footer-buttons-column">
+            <button class="btn-secondary" onclick="salvarRascunhoManual()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Salvar Rascunho
+            </button>
+
+            <button class="btn-outline" onclick="imprimirAtendimento()">
+                <i class="fa-solid fa-print"></i>
+                Imprimir Atendimento
+            </button>
+
+            <button class="btn-finalizar" onclick="finalizarAtendimento()">
+                <i class="fa-solid fa-check"></i>
+                Finalizar Atendimento
+            </button>
+    </div>
+    
+
+    </main>
+</div>
+
+<div class="modal" id="modalPrescricao">
+    <div class="modal-content wide">
+        <div class="modal-header">
+            <h2>Adicionar Prescrição</h2>
+
+            <button onclick="fecharModalPrescricao()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="form-grid three">
+            <div>
+                <label>Tipo de receita *</label>
+                <select id="prescricaoTipoReceita">
+                    <option>Receita simples</option>
+                    <option>Receita controlada</option>
+                    <option>Receita especial</option>
+                    <option>Receita de uso contínuo</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Medicamento *</label>
+                <input type="text" id="prescricaoMedicamento" placeholder="Ex.: Fluoxetina 20 mg">
+            </div>
+
+            <div>
+                <label>Via de administração</label>
+                <select id="prescricaoVia">
+                    <option>Oral</option>
+                    <option>Sublingual</option>
+                    <option>Tópica</option>
+                    <option>Intramuscular</option>
+                    <option>Intravenosa</option>
+                    <option>Inalatória</option>
+                    <option>Outra</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Tipo de dose</label>
+                <select id="prescricaoTipoDose">
+                    <option>Comum</option>
+                    <option>Única</option>
+                    <option>Fracionada</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Quantidade</label>
+                <input type="number" id="prescricaoQuantidade" value="1" min="0">
+            </div>
+
+            <div>
+                <label>Unidade</label>
+                <select id="prescricaoUnidade">
+                    <option>Comprimido</option>
+                    <option>Cápsula</option>
+                    <option>Gota</option>
+                    <option>mL</option>
+                    <option>Ampola</option>
+                    <option>Envelope</option>
+                    <option>Dose</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Frequência</label>
+                <select id="prescricaoFrequencia">
+                    <option>1 vez ao dia</option>
+                    <option>A cada 4 horas</option>
+                    <option>A cada 6 horas</option>
+                    <option>A cada 8 horas</option>
+                    <option>A cada 12 horas</option>
+                    <option>A cada 24 horas</option>
+                    <option>Se necessário</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Início do tratamento</label>
+                <input type="date" id="prescricaoInicio">
+            </div>
+
+            <div>
+                <label>Duração</label>
+                <input type="text" id="prescricaoDuracao" placeholder="Ex.: 30 dias">
+            </div>
+        </div>
+
+        <label class="check-inline bloco-check">
+            <input type="checkbox" id="prescricaoUsoContinuo">
+            Uso contínuo
+        </label>
+
+        <label>Posologia</label>
+        <textarea id="prescricaoPosologia"></textarea>
+
+        <label>Observações</label>
+        <textarea id="prescricaoObservacoes"></textarea>
+
+        <div class="modal-footer">
+
+            <button type="button" class="btn-outline" onclick="fecharModalPrescricao()">
+                Cancelar
+            </button>
+
+            <button type="button" class="btn-success" onclick="salvarPrescricao()">
+                Salvar Prescrição
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modalExame">
+    <div class="modal-content wide exam-modal">
+        <button class="modal-close" onclick="fecharModalExame()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="exam-layout">
+            <aside class="exam-groups">
+                <h4>Grupo de solicitações <i class="fa-solid fa-circle-info"></i></h4>
+
+                <button onclick="selecionarGrupoExame('Psicologia')">
+                    Psicologia
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <button onclick="selecionarGrupoExame('Psiquiatria')">
+                    Psiquiatria
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <button onclick="selecionarGrupoExame('Neuropsicologia')">
+                    Neuropsicologia
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <button onclick="selecionarGrupoExame('Desenvolvimento infantil')">
+                    Desenvolvimento infantil
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <button onclick="selecionarGrupoExame('Avaliação escolar')">
+                    Avaliação escolar
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+                <button onclick="selecionarGrupoExame('Outros')">
+                    Outros
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </aside>
+
+            <section class="exam-form">
+                <h2>Solicitar exame / avaliação</h2>
+
+                <label>Grupo selecionado</label>
+                <input type="text" id="exameGrupo" readonly>
+
+                <label>Solicitação *</label>
+                <select id="exameNome"></select>
+
+                <label>CID 10</label>
+                <input type="text" id="exameCid" placeholder="Ex.: F41.1">
+
+                <label>Justificativa do procedimento *</label>
+                <textarea id="exameJustificativa" maxlength="500" placeholder="Insira a justificativa do procedimento."></textarea>
+
+                <label>Observações</label>
+                <textarea id="exameObservacoes" maxlength="250" placeholder="Insira as observações do procedimento."></textarea>
+            </section>
+        </div>
+
+        <div class="modal-footer">
+
+            <button type="button" class="btn-outline" onclick="fecharModalExame()">
+                Cancelar
+            </button>
+
+            <button type="button" class="btn-success" onclick="salvarExameSolicitado()">
+                Salvar
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="print.js"></script>
+<script src="atendimento.js"></script>
+
+</body>
+</html>

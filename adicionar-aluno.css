@@ -1,0 +1,245 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7f5;
+    color:#111827;
+}
+
+/* ==========================================
+   PÁGINA
+========================================== */
+
+.content{
+    padding:28px;
+}
+
+/* ==========================================
+   CABEÇALHO
+========================================== */
+
+.cabecalho-aluno{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.icone-aluno{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#e8f5ef;
+    border:4px solid #0b7f3a;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.icone-aluno i{
+    font-size:42px;
+    color:#0b7f3a;
+}
+
+.cabecalho-aluno h2{
+    font-size:42px;
+    color:#1f2937;
+    margin-bottom:5px;
+}
+
+.cabecalho-aluno p{
+    font-size:15px;
+    color:#6b7280;
+}
+
+/* ==========================================
+   FORMULÁRIO
+========================================== */
+
+.form-aluno{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* ==========================================
+   CARDS
+========================================== */
+
+.card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    border:1px solid #dfe7e2;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
+
+.card h3{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:22px;
+    color:#0b7f3a;
+
+    margin-bottom:25px;
+}
+
+.card h3 i{
+    font-size:20px;
+}
+
+/* ==========================================
+   GRID
+========================================== */
+
+.grid-form{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:18px;
+}
+
+.col-2{
+    grid-column:span 2;
+}
+
+/* ==========================================
+   CAMPOS
+========================================== */
+
+.campo{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.campo label{
+    font-size:14px;
+    font-weight:600;
+    color:#374151;
+}
+
+.campo input,
+.campo select,
+.campo textarea{
+    width:100%;
+    padding:12px 14px;
+
+    border:1px solid #d1d5db;
+    border-radius:10px;
+
+    font-size:14px;
+    outline:none;
+    transition:.2s;
+    background:#fff;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus{
+    border-color:#0b7f3a;
+    box-shadow:0 0 0 3px rgba(11,127,58,0.15);
+}
+
+.campo textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+/* ==========================================
+   BOTÕES
+========================================== */
+
+.acoes-form{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:10px;
+}
+
+.btn-secundario,
+.btn-limpar,
+.btn-salvar{
+    border:none;
+    border-radius:10px;
+    padding:12px 20px;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:.2s;
+}
+
+.btn-secundario{
+    background:#6b7280;
+    color:#fff;
+}
+
+.btn-secundario:hover{
+    background:#4b5563;
+}
+
+.btn-limpar{
+    background:#f3f4f6;
+    color:#374151;
+    border:1px solid #d1d5db;
+}
+
+.btn-limpar:hover{
+    background:#e5e7eb;
+}
+
+.btn-salvar{
+    background:#0b7f3a;
+    color:#fff;
+}
+
+.btn-salvar:hover{
+    background:#08652f;
+}
+
+/* ==========================================
+   RESPONSIVIDADE
+========================================== */
+
+@media (max-width: 900px){
+
+    .grid-form{
+        grid-template-columns:1fr;
+    }
+
+    .col-2{
+        grid-column:span 1;
+    }
+
+    .cabecalho-aluno{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .cabecalho-aluno h2{
+        font-size:32px;
+    }
+
+    .acoes-form{
+        flex-direction:column;
+    }
+
+    .btn-secundario,
+    .btn-limpar,
+    .btn-salvar{
+        width:100%;
+        justify-content:center;
+    }
+
+}

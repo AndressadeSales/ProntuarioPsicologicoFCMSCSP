@@ -1,0 +1,164 @@
+/* ==========================================
+   PSISAÚDE - CALENDÁRIO PADRÃO
+========================================== */
+
+/* CAMPO COM ÍCONE DE CALENDÁRIO */
+
+.field-icon{
+    display:flex;
+    align-items:center;
+    width:100%;
+    height:48px;
+    border:1px solid #d7e3da;
+    border-radius:8px;
+    overflow:hidden;
+    background:white;
+}
+
+.field-icon input{
+    flex:1;
+    height:100%;
+    border:none;
+    padding:0 14px;
+    font-size:14px;
+    background:white;
+}
+
+.field-icon input:focus{
+    border:none;
+    outline:none;
+}
+
+.field-icon button{
+    width:48px;
+    height:100%;
+    border:none;
+    border-left:1px solid #d7e3da;
+    background:#f8faf9;
+    color:#007A33;
+    cursor:pointer;
+    font-size:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.field-icon button:hover{
+    background:#edf7f0;
+}
+
+/* MINI CALENDÁRIO */
+
+.mini-calendar{
+    position:absolute;
+    z-index:100000;
+    width:330px;
+    background:white;
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 10px 28px rgba(0,0,0,0.18);
+    border:1px solid #d1d5db;
+    margin-top:8px;
+}
+
+.mini-calendar.closed{
+    display:none;
+}
+
+.mini-calendar-box{
+    width:100%;
+}
+
+.mini-calendar-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.mini-calendar-header button{
+    border:1px solid #007A33;
+    background:white;
+    color:#007A33;
+    padding:6px 10px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.mini-calendar-header button:hover{
+    background:#edf7f0;
+}
+
+.mini-calendar-header i{
+    cursor:pointer;
+    color:#111827;
+    font-size:15px;
+}
+
+.mini-calendar-header i:hover{
+    color:#007A33;
+}
+
+.mini-calendar-header strong{
+    font-size:14px;
+    color:#111827;
+    white-space:nowrap;
+}
+
+.mini-week-days,
+.mini-days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    text-align:center;
+}
+
+.mini-week-days span{
+    font-weight:bold;
+    padding:4px 0;
+    font-size:13px;
+    color:#111827;
+}
+
+.mini-day{
+    width:32px;
+    height:32px;
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    cursor:pointer;
+    margin:auto;
+    font-size:13px;
+    color:#111827;
+}
+
+.mini-day:hover{
+    background:#edf7f0;
+}
+
+.mini-day.today{
+    background:#dff4e5;
+    color:#007A33;
+    font-weight:bold;
+}
+
+.mini-day.selected{
+    background:#007A33;
+    color:white;
+    font-weight:bold;
+}
+
+.calendario-wrapper{
+    position:relative;
+    width:100%;
+}
+
+.calendario-wrapper .mini-calendar{
+    left:0;
+    top:100%;
+}

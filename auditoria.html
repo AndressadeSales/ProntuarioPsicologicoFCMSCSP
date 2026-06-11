@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auditoria de Atividades | PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+        document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="auditoria.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <!-- CABEÇALHO -->
+
+        <div class="cabecalho-historico">
+
+            <div class="titulo-pagina">
+                <div class="icone-pagina">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+
+                <div>
+                    <h1>Histórico de Atividades</h1>
+                    <p>
+                        Auditoria completa das ações realizadas no sistema PsiSaúde.
+                    </p>
+                </div>
+            </div>
+
+            <div class="acoes-cabecalho">
+
+                <button class="btn-secundario" onclick="atualizarHistorico()">
+                    <i class="fa-solid fa-rotate"></i>
+                    Atualizar
+                </button>
+
+                <button class="btn-secundario" onclick="imprimirHistorico()">
+                    <i class="fa-solid fa-print"></i>
+                    Imprimir
+                </button>
+
+                <button class="btn-principal" onclick="exportarCSV()">
+                    <i class="fa-solid fa-file-csv"></i>
+                    Exportar CSV
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- INDICADORES -->
+
+        <section class="cards-resumo">
+
+            <div class="card-resumo">
+                <i class="fa-solid fa-list-check"></i>
+
+                <div>
+                    <strong id="totalRegistros">
+                        0
+                    </strong>
+
+                    <span>
+                        Ações Registradas
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-resumo">
+                <i class="fa-solid fa-print"></i>
+
+                <div>
+                    <strong id="totalImpressoes">
+                        0
+                    </strong>
+
+                    <span>
+                        Impressões
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-resumo">
+                <i class="fa-solid fa-file-export"></i>
+
+                <div>
+                    <strong id="totalExportacoes">
+                        0
+                    </strong>
+
+                    <span>
+                        Exportações
+                    </span>
+                </div>
+            </div>
+
+            <div class="card-resumo">
+                <i class="fa-solid fa-check-circle"></i>
+
+                <div>
+                    <strong id="totalFinalizados">
+                        0
+                    </strong>
+
+                    <span>
+                        Atendimentos Finalizados
+                    </span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- FILTROS -->
+
+        <section class="card-filtros">
+
+            <div class="cabecalho-filtros">
+                <h2>
+                    <i class="fa-solid fa-filter"></i>
+                    Filtros
+                </h2>
+            </div>
+
+            <div class="grid-filtros">
+
+                <div class="campo">
+                    <label>Data Inicial</label>
+                    <input type="date" id="dataInicial">
+                </div>
+
+                <div class="campo">
+                    <label>Data Final</label>
+                    <input type="date" id="dataFinal">
+                </div>
+
+                <div class="campo">
+                    <label>Profissional</label>
+
+                    <select id="filtroProfissional">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Módulo</label>
+
+                    <select id="filtroModulo">
+                        <option value="">Todos</option>
+
+                        <option>Agenda</option>
+                        <option>Lista de Atendimento</option>
+                        <option>Prontuário</option>
+                        <option>Atendimento</option>
+                        <option>Pacientes</option>
+                        <option>Colaboradores</option>
+                        <option>Alunos</option>
+                        <option>Atividade Coletiva</option>
+                        <option>Relatórios</option>
+                        <option>Sistema</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Tipo de Ação</label>
+
+                    <select id="filtroAcao">
+                        <option value="">Todas</option>
+
+                        <option>Cadastro</option>
+                        <option>Edição</option>
+                        <option>Visualização</option>
+                        <option>Impressão</option>
+                        <option>Exportação</option>
+                        <option>Cancelamento</option>
+                        <option>Exclusão</option>
+                        <option>Login</option>
+                        <option>Logout</option>
+                        <option>Finalização</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label>Pesquisar</label>
+
+                    <input
+                        type="text"
+                        id="pesquisaHistorico"
+                        placeholder="Paciente, colaborador, descrição...">
+                </div>
+
+            </div>
+
+            <div class="acoes-filtro">
+
+                <button
+                    class="btn-principal"
+                    onclick="filtrarHistorico()">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    Filtrar
+
+                </button>
+
+                <button
+                    class="btn-secundario"
+                    onclick="limparFiltros()">
+
+                    <i class="fa-solid fa-broom"></i>
+                    Limpar
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- TABELA -->
+
+        <section class="card-tabela">
+
+            <div class="cabecalho-tabela">
+
+                <h2>
+                    <i class="fa-solid fa-table"></i>
+                    Histórico Completo
+                </h2>
+
+                <span id="quantidadeResultados">
+                    0 registros
+                </span>
+
+            </div>
+
+            <div class="table-container">
+
+                <table class="tabela-historico">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Data/Hora</th>
+
+                            <th>Profissional</th>
+
+                            <th>Módulo</th>
+
+                            <th>Ação</th>
+
+                            <th>Descrição</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tbodyHistorico">
+
+                        <!-- JS -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <!-- TIMELINE -->
+
+        <section class="card-timeline">
+
+            <div class="cabecalho-tabela">
+
+                <h2>
+                    <i class="fa-solid fa-stream"></i>
+                    Linha do Tempo
+                </h2>
+
+            </div>
+
+            <div id="timelineHistorico">
+
+                <!-- JS -->
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="layout.js"></script>
+    <script src="calendario.js"></script>
+    <script src="auditoria.js"></script>
+
+</body>
+
+</html>

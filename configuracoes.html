@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações | PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+            document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="configuracoes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="cabecalho-configuracoes">
+            <div class="icone-configuracoes">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+
+            <div>
+                <h2>Configurações</h2>
+                <p>Gerencie preferências do sistema, unidade, agenda, documentos e segurança.</p>
+            </div>
+        </div>
+
+        <section class="config-layout">
+
+            <aside class="menu-config">
+                <button class="aba-config active" onclick="abrirAbaConfig('usuario', this)">
+                    <i class="fa-solid fa-user"></i>
+                    Usuário
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('unidade', this)">
+                    <i class="fa-solid fa-hospital"></i>
+                    Unidade
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('agenda', this)">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    Agenda
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('atendimento', this)">
+                    <i class="fa-solid fa-comments"></i>
+                    Atendimento
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('documentos', this)">
+                    <i class="fa-solid fa-file-lines"></i>
+                    Documentos
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('supervisao', this)">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    Supervisão
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('notificacoes', this)">
+                    <i class="fa-solid fa-bell"></i>
+                    Notificações
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('seguranca', this)">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Segurança
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('aparencia', this)">
+                    <i class="fa-solid fa-palette"></i>
+                    Aparência
+                </button>
+
+                <button class="aba-config" onclick="abrirAbaConfig('backup', this)">
+                    <i class="fa-solid fa-database"></i>
+                    Backup
+                </button>
+            </aside>
+
+            <section class="conteudo-config">
+
+                <div class="painel-config active" id="aba-usuario">
+                    <h3><i class="fa-solid fa-user"></i> Dados do usuário</h3>
+
+                    <div class="form-grid two">
+                        <div>
+                            <label>Nome</label>
+                            <input type="text" id="usuarioNome" value="Andressa de Sales Fernandes">
+                        </div>
+
+                        <div>
+                            <label>Cargo</label>
+                            <input type="text" id="usuarioCargo" value="Administrador(a)">
+                        </div>
+
+                        <div>
+                            <label>E-mail</label>
+                            <input type="email" id="usuarioEmail" value="andressa@psisaude.com">
+                        </div>
+
+                        <div>
+                            <label>Telefone</label>
+                            <input type="text" id="usuarioTelefone" value="(18) 99999-0000">
+                        </div>
+                    </div>
+
+                    <div class="botoes-linha">
+                        <button class="btn-secundario" onclick="abrirAlterarSenha()">
+                            <i class="fa-solid fa-key"></i>
+                            Alterar senha
+                        </button>
+
+                        <button class="btn-secundario">
+                            <i class="fa-solid fa-envelope"></i>
+                            Alterar e-mail
+                        </button>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-unidade">
+                    <h3><i class="fa-solid fa-hospital"></i> Dados da unidade</h3>
+
+                    <div class="form-grid two">
+                        <div>
+                            <label>Nome da unidade</label>
+                            <input type="text" id="unidadeNome" value="Centro Integrado PsiSaúde">
+                        </div>
+
+                        <div>
+                            <label>CNES</label>
+                            <input type="text" id="unidadeCnes" value="1234567">
+                        </div>
+
+                        <div>
+                            <label>CNPJ</label>
+                            <input type="text" id="unidadeCnpj" value="00.000.000/0001-00">
+                        </div>
+
+                        <div>
+                            <label>Telefone</label>
+                            <input type="text" id="unidadeTelefone" value="(18) 99999-0000">
+                        </div>
+
+                        <div>
+                            <label>E-mail institucional</label>
+                            <input type="email" id="unidadeEmail" value="contato@psisaude.com">
+                        </div>
+
+                        <div>
+                            <label>Endereço</label>
+                            <input type="text" id="unidadeEndereco" value="Rua Principal, 100 - Centro - Dracena/SP">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-agenda">
+                    <h3><i class="fa-solid fa-calendar-days"></i> Configurações da agenda</h3>
+
+                    <div class="form-grid three">
+                        <div>
+                            <label>Horário inicial</label>
+                            <input type="time" id="agendaInicio" value="07:00">
+                        </div>
+
+                        <div>
+                            <label>Horário final</label>
+                            <input type="time" id="agendaFim" value="22:00">
+                        </div>
+
+                        <div>
+                            <label>Duração padrão da consulta</label>
+                            <select id="duracaoConsulta">
+                                <option>30 minutos</option>
+                                <option selected>50 minutos</option>
+                                <option>60 minutos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-lista">
+                        <label><input type="checkbox" id="permitirEncaixe" checked> Permitir encaixe</label>
+                        <label><input type="checkbox" id="mostrarFimSemana"> Exibir finais de semana</label>
+                        <label><input type="checkbox" id="agendaInicial" checked> Abrir agenda como página inicial</label>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-atendimento">
+                    <h3><i class="fa-solid fa-comments"></i> Configurações de atendimento</h3>
+
+                    <div class="checkbox-lista">
+                        <label><input type="checkbox" checked> Atendimento presencial</label>
+                        <label><input type="checkbox" checked> Atendimento online</label>
+                        <label><input type="checkbox" checked> Consulta entre profissionais</label>
+                        <label><input type="checkbox"> Exigir CID para finalizar</label>
+                        <label><input type="checkbox" checked> Exigir evolução antes de finalizar</label>
+                        <label><input type="checkbox" checked> Salvar rascunho automaticamente</label>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-documentos">
+                    <h3><i class="fa-solid fa-file-lines"></i> Configurações de documentos</h3>
+
+                    <div class="checkbox-lista">
+                        <label><input type="checkbox" checked> Mostrar logotipo da unidade</label>
+                        <label><input type="checkbox" checked> Mostrar assinatura do profissional</label>
+                        <label><input type="checkbox" checked> Mostrar rodapé institucional</label>
+                        <label><input type="checkbox" checked> Registrar impressão no histórico</label>
+                    </div>
+
+                    <div class="form-grid one">
+                        <div>
+                            <label>Texto padrão de atestado</label>
+                            <textarea id="textoAtestado">Atesto, para os devidos fins, que o(a) paciente compareceu a atendimento psicológico nesta unidade.</textarea>
+                        </div>
+
+                        <div>
+                            <label>Texto padrão de encaminhamento</label>
+                            <textarea id="textoEncaminhamento">Encaminho o(a) paciente para avaliação e continuidade do cuidado conforme necessidade identificada em atendimento psicológico.</textarea>
+                        </div>
+
+                        <div>
+                            <label>Texto padrão de declaração</label>
+                            <textarea id="textoDeclaracao">Declaro que o(a) paciente esteve presente nesta unidade para atendimento/acompanhamento psicológico.</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-supervisao">
+                    <h3><i class="fa-solid fa-user-graduate"></i> Supervisão de alunos</h3>
+
+                    <div class="form-grid two">
+                        <div>
+                            <label>Máximo de alunos por supervisor</label>
+                            <input type="number" id="maxAlunosSupervisor" value="5">
+                        </div>
+
+                        <div>
+                            <label>Validação do supervisor</label>
+                            <select id="validacaoSupervisor">
+                                <option selected>Obrigatória</option>
+                                <option>Opcional</option>
+                                <option>Não se aplica</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-lista">
+                        <label><input type="checkbox"> Permitir aluno finalizar atendimento sozinho</label>
+                        <label><input type="checkbox" checked> Supervisor deve validar evolução</label>
+                        <label><input type="checkbox" checked> Registrar alterações do aluno na auditoria</label>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-notificacoes">
+                    <h3><i class="fa-solid fa-bell"></i> Notificações</h3>
+
+                    <div class="checkbox-lista">
+                        <label><input type="checkbox" checked> Avisar novo agendamento</label>
+                        <label><input type="checkbox" checked> Avisar agendamento cancelado</label>
+                        <label><input type="checkbox" checked> Avisar paciente não aguardou</label>
+                        <label><input type="checkbox"> Avisar novo colaborador cadastrado</label>
+                        <label><input type="checkbox"> Avisar nova atividade coletiva</label>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-seguranca">
+                    <h3><i class="fa-solid fa-shield-halved"></i> Segurança e auditoria</h3>
+
+                    <div class="form-grid two">
+                        <div>
+                            <label>Encerrar sessão automaticamente após</label>
+                            <select id="tempoSessao">
+                                <option>15 minutos</option>
+                                <option selected>30 minutos</option>
+                                <option>60 minutos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-lista">
+                        <label><input type="checkbox" checked> Registrar histórico de auditoria</label>
+                        <label><input type="checkbox" checked> Registrar impressões</label>
+                        <label><input type="checkbox" checked> Registrar exportações</label>
+                        <label><input type="checkbox" checked> Registrar alterações em prontuário</label>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-aparencia">
+                    <h3><i class="fa-solid fa-palette"></i> Aparência</h3>
+
+                    <div class="form-grid two">
+                        <div>
+                            <label>Tema</label>
+                            <select id="temaSistema">
+                                <option selected>Claro</option>
+                                <option>Escuro</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label>Cor principal</label>
+                            <select id="corPrincipal">
+                                <option selected>Verde Santa Casa</option>
+                                <option>Verde escuro</option>
+                                <option>Azul institucional</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="painel-config" id="aba-backup">
+                    <h3><i class="fa-solid fa-database"></i> Backup e restauração</h3>
+
+                    <div class="botoes-linha">
+                        <button class="btn-secundario" onclick="exportarConfiguracoes()">
+                            <i class="fa-solid fa-download"></i>
+                            Exportar configurações
+                        </button>
+
+                        <button class="btn-secundario">
+                            <i class="fa-solid fa-upload"></i>
+                            Importar configurações
+                        </button>
+
+                        <button class="btn-perigo" onclick="restaurarPadrao()">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Restaurar padrão
+                        </button>
+                    </div>
+                </div>
+
+            </section>
+
+        </section>
+
+        <div class="footer-config">
+            <button class="btn-secundario" onclick="window.location.href='agenda.html'">
+                Cancelar
+            </button>
+
+            <button class="btn-principal" onclick="salvarConfiguracoes()">
+                <i class="fa-solid fa-check"></i>
+                Salvar alterações
+            </button>
+        </div>
+
+    </main>
+
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="configuracoes.js"></script>
+
+</body>
+</html>

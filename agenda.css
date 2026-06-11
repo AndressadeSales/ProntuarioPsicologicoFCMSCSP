@@ -1,0 +1,759 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7f5;
+    overflow-x:hidden;
+    color:#111827;
+}
+
+
+/* AGENDA */
+
+.agenda-layout{
+    display:grid;
+    grid-template-columns:290px minmax(0,1fr);
+    gap:22px;
+}
+
+.month-panel{
+    background:#f1f4f2;
+    padding:14px;
+}
+
+.calendar-box{
+    background:white;
+    border-radius:12px;
+    padding:14px;
+}
+
+.calendar-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:14px;
+}
+
+.calendar-header button{
+    background:white;
+    border:1px solid #007A33;
+    color:#007A33;
+    padding:7px 12px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.calendar-header i{
+    cursor:pointer;
+    color:#111827;
+    font-size:15px;
+}
+
+.calendar-header strong{
+    color:#111827;
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.week-days,
+.calendar-days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:4px;
+    text-align:center;
+}
+
+.week-days span{
+    font-weight:bold;
+    font-size:13px;
+}
+
+.calendar-day{
+    width:30px;
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.calendar-day:hover{
+    background:#edf7f0;
+}
+
+.calendar-day.today{
+    background:#dff4e5;
+    color:#007A33;
+}
+
+.calendar-day.selected{
+    background:#007A33;
+    color:white;
+    font-weight:bold;
+}
+
+.patient-search-panel{
+    margin-top:22px;
+}
+
+.patient-search-panel label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.patient-search-input{
+    display:flex;
+    background:white;
+    border-radius:7px;
+    overflow:hidden;
+    border:1px solid #d7e3da;
+}
+
+.patient-search-input input{
+    flex:1;
+    border:none;
+    padding:12px 14px;
+    outline:none;
+    font-size:13px;
+}
+
+.patient-search-input i{
+    width:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f8faf9;
+    color:#007A33;
+}
+
+.professional-selector{
+    background:white;
+    border-radius:12px;
+    padding:22px 24px;
+    margin-bottom:20px;
+}
+
+.professional-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.professional-top h3{
+    font-size:18px;
+    margin-left:8px;
+}
+
+.nav-btn{
+    width:36px;
+    height:36px;
+    border:1px solid #d7e3da;
+    border-radius:8px;
+    background:white;
+    cursor:pointer;
+}
+
+.professional-search-area{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:14px;
+    align-items:center;
+}
+
+.professional-search{
+    position:relative;
+}
+
+.professional-search input{
+    width:100%;
+    padding:13px 45px 13px 15px;
+    border:2px solid #007A33;
+    border-radius:8px;
+    outline:none;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.toggle-arrow{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+}
+
+.toggle-arrow.rotated{
+    transform:translateY(-50%) rotate(180deg);
+}
+
+.professional-actions{
+    display:flex;
+    gap:10px;
+}
+
+.icon-action{
+    width:48px;
+    height:48px;
+    border:none;
+    border-radius:10px;
+    background:#f1f3f5;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.icon-action:hover{
+    background:#e7f3ec;
+    color:#007A33;
+}
+
+.professional-info{
+    margin-top:6px;
+    font-size:13px;
+}
+
+.professional-list{
+    margin-top:16px;
+    border:1px solid #dce7de;
+    border-radius:8px;
+    overflow:hidden;
+    background:white;
+}
+
+.professional-list.closed{
+    display:none;
+}
+
+.professional-item{
+    padding:14px 15px;
+    border-bottom:1px solid #edf2ee;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.professional-item:hover{
+    background:#edf7f0;
+}
+
+.schedule{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.time-row{
+    display:grid;
+    grid-template-columns:110px 1fr;
+    min-height:86px;
+    border-bottom:1px solid #edf2ee;
+}
+
+.time-row > span{
+    padding:26px 24px;
+    background:#f9fcfa;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.time-content{
+    padding:14px 18px;
+    border-left:1px solid #edf2ee;
+    display:flex;
+    align-items:center;
+}
+
+.add{
+    width:100%;
+    border:2px dashed #72c98b;
+    border-radius:10px;
+    padding:14px 18px;
+    cursor:pointer;
+    color:#007A33;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:15px;
+    background:white;
+}
+
+.add:hover{
+    background:#edf7f0;
+}
+
+.appointment,
+.reserva-card{
+    width:100%;
+    background:#d9f7f2;
+    border:1px solid #4bb8ac;
+    border-left:5px solid #00796b;
+    border-radius:4px;
+    padding:10px 76px 10px 18px;
+    position:relative;
+}
+
+.appointment-header{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    font-size:13px;
+}
+
+.nome-cidadao{
+    cursor:pointer;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.appointment-actions,
+.reserva-actions{
+    position:absolute;
+    right:18px;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    gap:18px;
+}
+
+.appointment-actions button,
+.reserva-actions button{
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.status{
+    display:inline-block;
+    margin-top:8px;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:11px;
+    background:#dff4e5;
+    color:#007A33;
+}
+
+.registro-info{
+    margin-top:6px;
+    font-size:12px;
+}
+
+.horario-almoco{
+    width:100%;
+    background:#eeeeee;
+    border-left:5px solid #6b7280;
+    border-radius:6px;
+    padding:14px 18px;
+    color:#374151;
+    font-size:13px;
+}
+
+/* MODAIS */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99999;
+    padding:20px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-content{
+    background:white;
+    width:840px;
+    max-width:95%;
+    max-height:88vh;
+    overflow-y:auto;
+    border-radius:16px;
+    padding:24px 30px;
+}
+
+.modal-content.small{
+    width:480px;
+}
+
+.modal-content.visualizacao{
+    width:720px;
+}
+
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.modal-header h2{
+    font-size:20px;
+}
+
+.modal-header button{
+    border:none;
+    background:none;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.tipo-agendamento{
+    display:flex;
+    margin-bottom:22px;
+}
+
+.tipo-btn{
+    border:1px solid #007A33;
+    background:white;
+    padding:10px 17px;
+    cursor:pointer;
+    font-weight:bold;
+    color:#007A33;
+    font-size:13px;
+}
+
+.tipo-btn.active{
+    background:#007A33;
+    color:white;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px 22px;
+    align-items:start;
+}
+
+label{
+    display:block;
+    margin-bottom:6px;
+    margin-top:12px;
+    font-weight:bold;
+    font-size:13px;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid #9ca3af;
+    border-radius:4px;
+    outline:none;
+    font-size:13px;
+}
+
+textarea{
+    height:78px;
+    resize:vertical;
+}
+
+.field-icon{
+    display:flex;
+    align-items:center;
+    border:1px solid #9ca3af;
+    border-radius:4px;
+    overflow:hidden;
+    height:42px;
+    background:white;
+    position:relative;
+}
+
+.field-icon input{
+    border:none;
+    height:100%;
+}
+
+.field-icon button{
+    width:42px;
+    height:42px;
+    border:none;
+    border-left:1px solid #edf0f3;
+    background:#f4f5f7;
+    cursor:pointer;
+}
+
+.select-custom{
+    border:1px solid #9ca3af;
+    border-radius:4px;
+    padding:11px 12px;
+    display:flex;
+    justify-content:space-between;
+    cursor:pointer;
+    background:white;
+    font-size:13px;
+}
+
+.select-options{
+    border:1px solid #d1d5db;
+    border-top:none;
+    background:white;
+}
+
+.select-options.closed{
+    display:none;
+}
+
+.select-options div{
+    padding:11px 13px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.select-options div:hover{
+    background:#edf7f0;
+}
+
+.radio-group{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px 50px;
+    margin:10px 0 14px;
+}
+
+.radio-group label{
+    font-weight:normal;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:0;
+}
+
+.radio-group input{
+    width:22px;
+    height:22px;
+    accent-color:#007A33;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.add-cidadao-btn{
+    width:100%;
+    margin-top:18px;
+    padding:12px 15px;
+    border:1px solid #007A33;
+    background:white;
+    color:#007A33;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.contador{
+    text-align:right;
+    margin-top:6px;
+    font-size:12px;
+}
+
+.check-area{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:1px solid #d1d5db;
+    padding:12px 15px;
+    width:fit-content;
+    margin-left:auto;
+    margin-top:14px;
+    font-size:13px;
+}
+
+.check-area input{
+    width:20px;
+    height:20px;
+}
+
+.modal-footer{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-top:18px;
+}
+
+.btn-cancelar,
+.btn-salvar,
+.btn-danger{
+    border:none;
+    padding:12px 20px;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.btn-cancelar{
+    background:white;
+    border:1px solid #6b7280;
+}
+
+.btn-salvar{
+    background:#007A33;
+    color:white;
+}
+
+.btn-danger{
+    background:#d62828;
+    color:white;
+}
+
+/* DROPDOWN HORÁRIOS */
+
+.time-dropdown{
+    position:absolute;
+    z-index:100000;
+    width:220px;
+    max-height:220px;
+    overflow-y:auto;
+    background:white;
+    border:1px solid #d1d5db;
+    border-radius:6px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    margin-top:5px;
+}
+
+.time-dropdown.closed{
+    display:none;
+}
+
+.time-dropdown div{
+    padding:10px 12px;
+    cursor:pointer;
+    font-size:13px;
+    display:block;
+}
+
+.time-dropdown div:hover{
+    background:#edf7f0;
+    color:#007A33;
+}
+
+/* MINI CALENDÁRIO */
+
+.mini-calendar{
+    position:absolute;
+    z-index:100000;
+    width:330px;
+    background:white;
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 10px 28px rgba(0,0,0,0.18);
+    border:1px solid #d1d5db;
+    margin-top:8px;
+}
+
+.mini-calendar.closed{
+    display:none;
+}
+
+.mini-calendar-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.mini-calendar-header button{
+    border:1px solid #007A33;
+    background:white;
+    color:#007A33;
+    padding:6px 10px;
+    border-radius:8px;
+    font-weight:bold;
+    cursor:pointer;
+    font-size:13px;
+}
+
+.mini-calendar-header strong{
+    font-size:14px;
+    color:#111827;
+    white-space:nowrap;
+}
+
+.mini-week-days,
+.mini-days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    text-align:center;
+}
+
+.mini-week-days span{
+    font-weight:bold;
+    padding:4px 0;
+    font-size:13px;
+}
+
+.mini-day{
+    width:32px;
+    height:32px;
+    display:flex !important;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    cursor:pointer;
+    margin:auto;
+    font-size:13px;
+}
+
+.mini-day:hover{
+    background:#edf7f0;
+}
+
+.mini-day.today{
+    background:#dff4e5;
+    color:#007A33;
+}
+
+.mini-day.selected{
+    background:#007A33;
+    color:white;
+    font-weight:bold;
+}
+
+.section-title{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.section-title{
+    margin-top: 28px;
+    margin-bottom: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.profissional-title{
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* CONFIGURAÇÃO */
+
+#modalConfiguracaoAgenda .modal-content{
+    width:560px;
+}
+
+#modalConfiguracaoAgenda .form-grid{
+    grid-template-columns:1fr 1fr;
+    gap:18px 26px;
+}

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Colaborador - PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+        document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+    
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="adicionar-colaborador.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+        
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="cabecalho-colaborador">
+            <div class="icone-colaborador">
+                <i class="fa-solid fa-user-doctor"></i>
+            </div>
+
+            <div>
+                <h2>Adicionar Colaborador</h2>
+                <p>Cadastro de profissionais e funcionários da unidade.</p>
+            </div>
+        </div>
+
+        <form id="formColaborador">
+
+            <section class="card">
+                <h3><i class="fa-solid fa-id-card"></i> Dados Pessoais</h3>
+
+                <div class="form-grid three">
+                    <div>
+                        <label>Nome completo *</label>
+                        <input type="text" id="nomeCompleto" required>
+                    </div>
+
+                    <div>
+                        <label>CPF *</label>
+                        <input type="text" id="cpf" maxlength="14" required>
+                    </div>
+
+                    <div>
+                        <label>Data de nascimento</label>
+
+                        <div class="calendario-wrapper">
+
+                            <div class="field-icon">
+                                <input
+                                type="text"
+                                id="dataNascimento"
+                                placeholder="dd/mm/aaaa"
+                                data-calendario
+                                >
+
+                                <button type="button" onclick="abrirCalendario('dataNascimento')">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                </button>
+                            </div>
+
+                            <div class="mini-calendar closed" id="cal-dataNascimento"></div>
+                        
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Telefone</label>
+                        <input type="text" id="telefone">
+                    </div>
+
+                    <div>
+                        <label>E-mail *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3><i class="fa-solid fa-briefcase-medical"></i> Dados Profissionais</h3>
+
+                <div class="form-grid three">
+                    <div>
+                        <label>Unidade de atuação *</label>
+                        <input type="text" id="unidadeAtuacao" value="Santa Casa" required>
+                    </div>
+
+                    <div>
+                        <label>Equipe/Setor *</label>
+                        <select id="equipeSetor" required>
+                            <option value="">Selecione</option>
+                            <option>Psicologia</option>
+                            <option>Psiquiatria</option>
+                            <option>Enfermagem</option>
+                            <option>Medicina</option>
+                            <option>Recepção</option>
+                            <option>Administração</option>
+                            <option>Coordenação</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Cargo/Função *</label>
+                        <select id="cargoFuncao" onchange="verificarRegistroClasse()" required>
+                            <option value="">Selecione</option>
+                            <option value="Gerente da unidade">Gerente da unidade</option>
+                            <option value="Psicólogo">Psicólogo</option>
+                            <option value="Técnico de psicologia">Técnico de psicologia</option>
+                            <option value="Supervisor">Supervisor</option>
+                            <option value="Médico">Médico</option>
+                            <option value="Enfermeiro">Enfermeiro</option>
+                            <option value="Recepcionista">Recepcionista</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div id="areaRegistroClasse" class="hidden">
+                        <label id="labelRegistroClasse">Registro de classe *</label>
+                        <input type="text" id="registroClasse" placeholder="Ex.: CRP 06/123456">
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3><i class="fa-solid fa-user-shield"></i> Acesso ao Sistema</h3>
+
+                <div class="form-grid three">
+                    <div>
+                        <label>Usuário/Login *</label>
+                        <input type="text" id="usuarioLogin" required>
+                    </div>
+
+                    <div>
+                        <label>Perfil de acesso *</label>
+                        <select id="perfilAcesso" required>
+                            <option value="">Selecione</option>
+                            <option>Administrador</option>
+                            <option>Gerente</option>
+                            <option>Profissional</option>
+                            <option>Recepção</option>
+                            <option>Consulta</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Status *</label>
+                        <select id="status" required>
+                            <option>Ativo</option>
+                            <option>Inativo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <p class="aviso">
+                    O cadastro ficará salvo localmente por enquanto e já estará preparado para integração futura com banco de dados.
+                </p>
+            </section>
+
+            <div class="footer-actions">
+                <button type="button" class="btn-cancelar" onclick="limparFormulario()">
+                    <i class="fa-solid fa-eraser"></i>
+                    Limpar formulário
+                </button>
+
+                <button type="submit" class="btn-salvar">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Salvar colaborador
+                </button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="adicionar-colaborador.js"></script>
+
+</body>
+</html>

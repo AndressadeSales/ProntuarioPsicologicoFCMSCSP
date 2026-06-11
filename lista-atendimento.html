@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Atendimento - PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+        document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="lista-atendimento.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+        
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <h2>Lista de Atendimento</h2>
+
+        <button class="btn-add" onclick="toggleAdicionarPaciente()">
+            <i class="fa-solid fa-chevron-down" id="iconeAdd"></i>
+            Adicionar paciente
+        </button>
+
+        <section class="adicionar-box hidden" id="areaAdicionarPaciente">
+            <label>Paciente *</label>
+
+            <div class="campo-busca">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="buscaAdicionar" placeholder="Busque por nome, CPF ou CNS" oninput="buscarPacienteAdicionar()">
+            </div>
+
+            <div class="resultado-busca" id="resultadoBusca"></div>
+
+            <button class="btn-cadastrar">
+                <i class="fa-solid fa-plus"></i>
+                Cadastrar paciente
+            </button>
+        </section>
+
+        <section class="filtros-topo">
+
+            <div class="campo-pesquisa">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="campoPesquisa" placeholder="Pesquise por nome, CPF, CNS ou data de nascimento">
+                <button onclick="limparPesquisa()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <label class="switch-area">
+                <input type="checkbox" id="meusAtendimentos">
+                <span class="switch"></span>
+                Ver somente os meus atendimentos
+            </label>
+
+            <div class="ordenar">
+                <span>Ordenar por:</span>
+
+                <button onclick="toggleOrdenacao()" id="btnOrdenar">
+                    Ordem de chegada crescente
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+
+                <div class="ordenar-menu hidden" id="menuOrdenacao">
+                    <div onclick="ordenarPor('chegada-crescente')">Ordem de chegada crescente</div>
+                    <div onclick="ordenarPor('chegada-decrescente')">Ordem de chegada decrescente</div>
+                    <div onclick="ordenarPor('nome-az')">Nome do paciente (A → Z)</div>
+                    <div onclick="ordenarPor('nome-za')">Nome do paciente (Z → A)</div>
+                    <div onclick="ordenarPor('profissional-az')">Profissional (A → Z)</div>
+                    <div onclick="ordenarPor('profissional-za')">Profissional (Z → A)</div>
+                    <div onclick="ordenarPor('status')">Status</div>
+                </div>
+            </div>
+
+            <button class="btn-filtro" onclick="toggleFiltros()">
+                <i class="fa-solid fa-filter"></i>
+                Filtros
+            </button>
+
+        </section>
+
+        <section class="filtros-box hidden" id="filtrosBox">
+
+            <h3>Status do atendimento</h3>
+
+            <div class="status-grid">
+                <label><input type="checkbox" value="Aguardando atendimento"> <span class="cor verde"></span>Aguardando atendimento</label>
+                <label><input type="checkbox" value="Em atendimento"> <span class="cor roxo"></span>Em atendimento</label>
+                <label><input type="checkbox" value="Atendimento realizado"> <span class="cor azul"></span>Atendimento realizado</label>
+                <label><input type="checkbox" value="Não aguardou"> <span class="cor cinza"></span>Não aguardou</label>
+            </div>
+
+            <h3>Tipo de serviço</h3>
+
+            <div class="status-grid">
+                <label><input type="checkbox" value="Agendado"> Agendado</label>
+                <label><input type="checkbox" value="Consulta online"> Consulta online</label>
+                <label><input type="checkbox" value="Consulta entre profissionais"> Consulta entre profissionais</label>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="campo-filtro">
+                    <label>Data inicial</label>
+
+                    <div class="campo-data">
+                        <input type="text" id="dataInicial" readonly placeholder="dd/mm/aaaa">
+                        <button type="button" onclick="toggleCalendarioFiltro(event, 'inicial')">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </button>
+                    </div>
+
+                    <div class="mini-calendar closed" id="calendarioInicial"></div>
+                </div>
+
+                <div class="campo-filtro">
+                    <label>Data final</label>
+
+                    <div class="campo-data">
+                        <input type="text" id="dataFinal" readonly placeholder="dd/mm/aaaa">
+                        <button type="button" onclick="toggleCalendarioFiltro(event, 'final')">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </button>
+                    </div>
+
+                    <div class="mini-calendar closed" id="calendarioFinal"></div>
+                </div>
+
+                <div class="campo-filtro">
+                    <label>Profissional</label>
+                    <input type="text" id="filtroProfissional" placeholder="Nome do profissional">
+                </div>
+
+            </div>
+
+            <div class="filtros-acoes">
+                <button class="btn-cancelar" onclick="toggleFiltros()">Fechar</button>
+                <button class="btn-padrao" onclick="voltarPadrao()">Voltar para padrão</button>
+                <button class="btn-filtrar" onclick="aplicarFiltros()">Filtrar</button>
+            </div>
+
+        </section>
+
+        <div class="resumo-filtros" id="resumoFiltros">
+            <strong>Status do atendimento:</strong> Todos |
+            <strong>Período:</strong> Todos |
+            <strong>Tipo de serviço:</strong> Todos
+        </div>
+
+        <section class="lista" id="listaAtendimentos"></section>
+
+        <div class="total-resultados" id="totalResultados"></div>
+
+    </main>
+
+</div>
+
+<div class="modal" id="modalDeclaracao">
+    <div class="modal-content">
+        <button class="fechar" onclick="fecharDeclaracao()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <h2>Gerar declaração de comparecimento</h2>
+
+        <h3 id="nomeDeclaracao"></h3>
+        <p><strong>CPF:</strong> <span id="cpfDeclaracao"></span> &nbsp; <strong>CNS:</strong> <span id="cnsDeclaracao"></span></p>
+
+        <label>Período</label>
+
+        <div class="radio-group">
+            <label><input type="radio" name="periodo" checked> Matutino</label>
+            <label><input type="radio" name="periodo"> Vespertino</label>
+            <label><input type="radio" name="periodo"> Noturno</label>
+            <label><input type="radio" name="periodo"> Horário personalizado</label>
+        </div>
+
+        <label>Incluir nome do acompanhante</label>
+        <input type="text" placeholder="Nome do acompanhante">
+
+        <div class="modal-footer">
+            <button class="btn-cancelar" onclick="fecharDeclaracao()">Cancelar</button>
+            <button class="btn-filtrar" onclick="gerarDeclaracao()">Gerar declaração</button>
+        </div>
+    </div>
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="lista-atendimento.js"></script>
+
+</body>
+</html>

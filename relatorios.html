@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+            document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="relatorios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="cabecalho-relatorios">
+            <div class="icone-relatorios">
+                <i class="fa-solid fa-chart-column"></i>
+            </div>
+
+            <div>
+                <h2>Relatórios</h2>
+                <p>Indicadores, produção assistencial, atividades coletivas e acompanhamento da psicologia.</p>
+            </div>
+        </div>
+
+        <section class="card filtros-card">
+            <div class="toolbar">
+                <div>
+                    <label>Data inicial</label>
+
+                    <div class="calendario-wrapper">
+
+                        <div class="field-icon">
+                            <input
+                            type="text"
+                            id="dataInicial"
+                            placeholder="dd/mm/aaaa"
+                            data-calendario
+                            >
+
+                            <button type="button" onclick="abrirCalendario('dataInicial')">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </button>
+                        </div>
+
+                        <div class="mini-calendar closed" id="cal-dataInicial"></div>
+                    </div>
+                </div>
+            
+                <div>
+                    <label>Data final</label>
+
+                    <div class="calendario-wrapper">
+
+                        <div class="field-icon">
+                            <input
+                            type="text"
+                            id="dataFinal"
+                            placeholder="dd/mm/aaaa"
+                            data-calendario
+                            >
+
+                            <button type="button" onclick="abrirCalendario('dataFinal')">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </button>
+                        </div>
+
+                        <div class="mini-calendar closed" id="cal-dataFinal"></div>
+
+                    </div>
+                </div>
+
+                <div>
+                    <label>Profissional</label>
+                    <select id="filtroProfissional">
+                        <option value="">Todos</option>
+                        <option>Andressa de Sales Fernandes</option>
+                        <option>Mariana Oliveira</option>
+                        <option>Carlos Henrique</option>
+                        <option>Fernanda Souza</option>
+                        <option>Lucas Martins</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Tipo de relatório</label>
+                    <select id="tipoRelatorio">
+                        <option value="">Geral</option>
+                        <option>Atendimentos psicológicos</option>
+                        <option>Lista de atendimento</option>
+                        <option>Atividades coletivas</option>
+                        <option>Encaminhamentos</option>
+                        <option>Documentos emitidos</option>
+                        <option>Supervisão de alunos</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Status</label>
+                    <select id="filtroStatus">
+                        <option value="">Todos</option>
+                        <option>Realizado</option>
+                        <option>Agendado</option>
+                        <option>Cancelado</option>
+                        <option>Falta</option>
+                    </select>
+                </div>
+
+                <button class="btn-salvar" onclick="gerarRelatorio()">
+                    <i class="fa-solid fa-filter"></i>
+                    Gerar
+                </button>
+            </div>
+        </section>
+
+        <section class="indicadores-grid">
+
+            <div class="indicador-card">
+                <div class="indicador-icon">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+
+                <div>
+                    <span>Atendimentos</span>
+                    <strong id="totalAtendimentos">0</strong>
+                    <p>No período selecionado</p>
+                </div>
+            </div>
+
+            <div class="indicador-card">
+                <div class="indicador-icon">
+                    <i class="fa-solid fa-user-clock"></i>
+                </div>
+
+                <div>
+                    <span>Lista de atendimento</span>
+                    <strong id="totalLista">0</strong>
+                    <p>Registros em acompanhamento</p>
+                </div>
+            </div>
+
+            <div class="indicador-card">
+                <div class="indicador-icon">
+                    <i class="fa-solid fa-people-group"></i>
+                </div>
+
+                <div>
+                    <span>Atividades coletivas</span>
+                    <strong id="totalAtividades">0</strong>
+                    <p>Grupos, rodas e oficinas</p>
+                </div>
+            </div>
+
+            <div class="indicador-card">
+                <div class="indicador-icon">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+
+                <div>
+                    <span>Alunos vinculados</span>
+                    <strong id="totalAlunos">0</strong>
+                    <p>Supervisão ativa</p>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="relatorio-grid">
+
+            <div class="card grafico-card">
+                <div class="card-header">
+                    <h3>
+                        <i class="fa-solid fa-chart-line"></i>
+                        Produção mensal
+                    </h3>
+
+                    <span>Atendimentos e atividades coletivas</span>
+                </div>
+
+                <div class="grafico-barras" id="graficoBarras">
+                    <!-- preenchido pelo JS -->
+                </div>
+            </div>
+
+            <div class="card resumo-card">
+                <div class="card-header">
+                    <h3>
+                        <i class="fa-solid fa-circle-info"></i>
+                        Resumo do período
+                    </h3>
+
+                    <span>Síntese gerencial</span>
+                </div>
+
+                <div class="resumo-lista" id="resumoPeriodo">
+                    <!-- preenchido pelo JS -->
+                </div>
+            </div>
+
+        </section>
+
+        <section class="card">
+            <div class="lista-header">
+                <h3>
+                    <i class="fa-solid fa-table"></i>
+                    Produção detalhada
+                </h3>
+
+                <div class="acoes-relatorio">
+                    <button class="btn-secundario" onclick="imprimirRelatorio()">
+                        <i class="fa-solid fa-print"></i>
+                        Imprimir
+                    </button>
+
+                    <button class="btn-secundario" onclick="exportarCSV()">
+                        <i class="fa-solid fa-file-csv"></i>
+                        Exportar CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="tabela-relatorios">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tipo</th>
+                            <th>Paciente/Grupo</th>
+                            <th>Profissional</th>
+                            <th>Status</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabelaRelatorios">
+                        <!-- preenchido pelo JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="lista-vazia hidden" id="listaVazia">
+                <i class="fa-solid fa-chart-column"></i>
+                <p>Nenhum registro encontrado para os filtros selecionados.</p>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="relatorios.js"></script>
+
+</body>
+</html>

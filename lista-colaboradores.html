@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colaboradores - PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+            document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="lista-colaboradores.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="cabecalho-colaboradores">
+            <div class="icone-colaboradores">
+                <i class="fa-solid fa-users-gear"></i>
+            </div>
+
+            <div>
+                <h2>Colaboradores</h2>
+                <p>Visualize, pesquise e gerencie os profissionais e funcionários cadastrados.</p>
+            </div>
+        </div>
+
+        <section class="card">
+            <div class="toolbar">
+                <div class="campo-pesquisa">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="campoBusca"
+                        placeholder="Pesquisar por nome, CPF, e-mail, cargo ou registro"
+                        oninput="filtrarColaboradores()"
+                    >
+                </div>
+
+                <select id="filtroCargo" onchange="filtrarColaboradores()">
+                    <option value="">Todos os cargos</option>
+                    <option>Gerente da unidade</option>
+                    <option>Psicólogo</option>
+                    <option>Técnico de psicologia</option>
+                    <option>Médico</option>
+                    <option>Enfermeiro</option>
+                    <option>Recepcionista</option>
+                    <option>Outro</option>
+                </select>
+
+                <select id="filtroStatus" onchange="filtrarColaboradores()">
+                    <option value="">Todos os status</option>
+                    <option>Ativo</option>
+                    <option>Inativo</option>
+                </select>
+
+                <button class="btn-salvar" onclick="window.location.href='adicionar-colaborador.html'">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Adicionar colaborador
+                </button>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="lista-header">
+                <h3>
+                    <i class="fa-solid fa-users-gear"></i>
+                    Lista de Colaboradores
+                </h3>
+
+                <span id="totalColaboradores">0 colaboradores</span>
+            </div>
+
+            <div class="table-container">
+                <table class="tabela-colaboradores">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Cargo/Função</th>
+                            <th>Supervisor</th>
+                            <th>Alunos</th>
+                            <th>Equipe/Setor</th>
+                            <th>Registro</th>
+                            <th>Contato</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabelaColaboradores">
+                        <!-- preenchido pelo JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="lista-vazia hidden" id="listaVazia">
+                <i class="fa-solid fa-users-slash"></i>
+                <p>Nenhum colaborador encontrado.</p>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="lista-colaboradores.js"></script>
+
+</body>
+</html>

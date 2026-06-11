@@ -1,0 +1,355 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7f5;
+    color:#111827;
+    overflow-x:hidden;
+}
+
+/* CABEÇALHO */
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    gap:20px;
+}
+
+.page-header h2{
+    font-size:24px;
+    margin-bottom:5px;
+}
+
+.page-header p{
+    color:#6b7280;
+    font-size:13px;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    border:1px solid #d7e3da;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+}
+
+.card h3{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+    color:#007A33;
+}
+
+/* FORM */
+
+.form-grid{
+    display:grid;
+    gap:16px;
+}
+
+.form-grid.four{
+    grid-template-columns:2fr 1fr 1fr 1fr;
+}
+
+label{
+    display:block;
+    margin-bottom:7px;
+    font-size:13px;
+    font-weight:600;
+}
+
+input,
+select{
+    width:100%;
+    height:42px;
+    border:1px solid #d7e3da;
+    border-radius:8px;
+    padding:0 12px;
+    outline:none;
+}
+
+input:focus{
+    border-color:#007A33;
+}
+
+.radio-row{
+    display:flex;
+    gap:20px;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+.radio-row label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:normal;
+    margin:0;
+}
+
+.radio-row input{
+    width:18px;
+    height:18px;
+    accent-color:#007A33;
+}
+
+.acoes-filtros{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:15px;
+}
+
+/* BOTÕES */
+
+.btn-secondary,
+.btn-outline{
+    height:42px;
+    padding:0 16px;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.btn-secondary{
+    background:#007A33;
+    color:white;
+    border:none;
+}
+
+.btn-secondary:hover{
+    background:#00662A;
+}
+
+.btn-outline{
+    background:white;
+    border:1px solid #007A33;
+    color:#007A33;
+}
+
+.btn-outline:hover{
+    background:#edf7f0;
+}
+
+/* MENSAGEM */
+
+.mensagem{
+    background:white;
+    border:1px solid #d7e3da;
+    border-radius:12px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:20px;
+    color:#6b7280;
+}
+
+/* RESULTADOS */
+
+.resultados-topo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.resultados-topo h3{
+    font-size:20px;
+}
+
+.resultados-topo span{
+    color:#6b7280;
+    font-size:13px;
+}
+
+.lista-pacientes{
+    display:grid;
+    gap:16px;
+}
+
+/* CARD PACIENTE */
+
+.card-paciente{
+    background:white;
+    border:1px solid #d7e3da;
+    border-radius:12px;
+    padding:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+}
+
+.card-paciente:hover{
+    border-color:#007A33;
+}
+
+.paciente-info h4{
+    font-size:18px;
+    margin-bottom:12px;
+}
+
+.paciente-info p{
+    font-size:13px;
+    margin-bottom:5px;
+    color:#374151;
+}
+
+.status{
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    margin-top:10px;
+}
+
+.status.ativo{
+    background:#dff4e5;
+    color:#007A33;
+}
+
+.status.inativo{
+    background:#ffe4e4;
+    color:#d62828;
+}
+
+/* AÇÕES */
+
+.paciente-acoes{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:10px;
+}
+
+.btn-visualizar{
+    height:40px;
+    padding:0 14px;
+    border:none;
+    border-radius:8px;
+    background:#007A33;
+    color:white;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:700;
+}
+
+.btn-visualizar:hover{
+    background:#00662A;
+}
+
+.menu-container{
+    position:relative;
+}
+
+.menu-btn-card{
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:8px;
+    background:#f3f4f6;
+    cursor:pointer;
+}
+
+.menu-btn-card:hover{
+    background:#e5e7eb;
+}
+
+.menu-opcoes{
+    position:absolute;
+    top:45px;
+    right:0;
+    width:220px;
+    background:white;
+    border-radius:10px;
+    border:1px solid #d7e3da;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    display:none;
+    overflow:hidden;
+    z-index:999;
+}
+
+.menu-opcoes.active{
+    display:block;
+}
+
+.menu-opcoes a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 15px;
+    text-decoration:none;
+    color:#111827;
+    font-size:13px;
+}
+
+.menu-opcoes a:hover{
+    background:#edf7f0;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:1100px){
+
+    .form-grid.four{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .card-paciente{
+        flex-direction:column;
+    }
+
+    .paciente-acoes{
+        width:100%;
+        align-items:flex-start;
+    }
+}
+
+@media(max-width:768px){
+
+    .sidebar{
+        width:80px;
+    }
+
+    .sidebar .text{
+        display:none;
+    }
+
+    .content{
+        padding:15px;
+    }
+
+    .form-grid.four{
+        grid-template-columns:1fr;
+    }
+
+    .page-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .acoes-filtros{
+        flex-direction:column;
+    }
+
+    .btn-secondary,
+    .btn-outline{
+        width:100%;
+        justify-content:center;
+    }
+}

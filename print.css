@@ -1,0 +1,273 @@
+@page {
+    size: A4;
+    margin: 12mm;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    color: #111827;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+.print-page {
+    width: 100%;
+    min-height: 273mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* CABEÇALHO */
+
+.print-header {
+    display: grid;
+    grid-template-columns: 1fr 245px;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 22px;
+}
+
+.print-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+}
+
+.print-logo {
+    width: 105px;
+    max-width: 105px;
+    height: auto;
+    display: block;
+}
+
+.print-brand-text {
+    text-align: center;
+    color: #006b3f;
+}
+
+.print-brand-text h1 {
+    margin: 0;
+    color: #006b3f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 42px;
+    line-height: 1;
+    letter-spacing: 3px;
+    font-weight: 900;
+}
+
+.print-brand-text span {
+    display: block;
+    margin-top: 10px;
+    color: #006b3f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    letter-spacing: 5px;
+    font-weight: 800;
+}
+
+.print-unit {
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.print-unit strong {
+    display: block;
+    color: #006b3f;
+    font-size: 17px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.print-unit p {
+    margin: 0;
+}
+
+.print-line {
+    height: 4px;
+    background: #006b3f;
+    margin: 0 0 34px;
+}
+
+/* TÍTULO */
+
+.print-title {
+    text-align: center;
+    color: #006b3f;
+    font-size: 32px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0 0 34px;
+}
+
+/* CONTEÚDO */
+
+.print-section-title {
+    color: #006b3f;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 28px 0 12px;
+}
+
+.print-box {
+    border: 1.5px solid #8bbd9e;
+    border-radius: 10px;
+    padding: 22px 26px;
+    margin-bottom: 26px;
+    page-break-inside: avoid;
+}
+
+.print-box p {
+    margin: 10px 0;
+    line-height: 1.65;
+}
+
+.texto-documento,
+.print-content {
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+.print-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 36px;
+}
+
+/* ASSINATURA */
+
+.print-signature {
+    margin-top: 120px;
+    text-align: center;
+    page-break-inside: avoid;
+}
+
+.print-signature-line {
+    width: 370px;
+    border-top: 1.5px solid #111827;
+    margin: 0 auto 10px;
+}
+
+.print-signature p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* RODAPÉ */
+
+.print-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    page-break-inside: avoid;
+}
+
+.print-footer-line {
+    height: 4px;
+    background: #006b3f;
+    margin-bottom: 22px;
+}
+
+.print-footer-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 22px;
+    align-items: center;
+}
+
+.print-footer-item {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-right: 18px;
+    border-right: 1.5px solid #8bbd9e;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.print-footer-item:last-child {
+    border-right: none;
+}
+
+.footer-icon {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #006b3f;
+    color: #006b3f;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    flex-shrink: 0;
+}
+
+.print-footer-item strong {
+    color: #006b3f;
+    font-weight: 900;
+}
+
+.print-footer-item p {
+    margin: 0;
+}
+
+.print-page-number {
+    width: 170px;
+    margin: 22px auto 0;
+    background: #006b3f;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 22px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+/* TABELAS */
+
+.print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.print-table th {
+    background: #edf7f0;
+    color: #006b3f;
+    border: 1px solid #b7d1c3;
+    padding: 10px;
+    text-align: left;
+}
+
+.print-table td {
+    border: 1px solid #d6dedb;
+    padding: 10px;
+}
+
+/* IMPRESSÃO */
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .sidebar,
+    .topbar,
+    .no-print,
+    button,
+    .acoes,
+    .menu-acoes {
+        display: none !important;
+    }
+}

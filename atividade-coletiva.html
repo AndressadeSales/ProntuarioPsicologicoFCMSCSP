@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade Coletiva - PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+            document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="atividade-coletiva.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="cabecalho-atividade">
+            <div class="icone-atividade">
+                <i class="fa-solid fa-people-group"></i>
+            </div>
+
+            <div>
+                <h2>Atividade Coletiva</h2>
+                <p>Registro de reuniões, grupos terapêuticos, ações educativas e atividades coletivas em psicologia.</p>
+            </div>
+        </div>
+
+        <section class="card">
+            <div class="toolbar">
+                <div class="campo-pesquisa">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="campoBusca" placeholder="Pesquisar por tema, responsável, local ou tipo" oninput="filtrarAtividades()">
+                </div>
+
+                <select id="filtroTipo" onchange="filtrarAtividades()">
+                    <option value="">Todos os tipos</option>
+                    <option>Grupo terapêutico</option>
+                    <option>Roda de conversa</option>
+                    <option>Psicoeducação</option>
+                    <option>Oficina terapêutica</option>
+                    <option>Reunião de equipe</option>
+                    <option>Discussão de caso</option>
+                    <option>Matriciamento</option>
+                    <option>Ação em escola/PSE</option>
+                    <option>Sala de espera</option>
+                </select>
+
+                <select id="filtroStatus" onchange="filtrarAtividades()">
+                    <option value="">Todos os status</option>
+                    <option>Realizada</option>
+                    <option>Planejada</option>
+                    <option>Cancelada</option>
+                </select>
+
+                <button class="btn-salvar" onclick="abrirModalAtividade()">
+                    <i class="fa-solid fa-plus"></i>
+                    Nova atividade
+                </button>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="lista-header">
+                <h3>
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    Atividades registradas
+                </h3>
+
+                <span id="totalAtividades">0 atividades</span>
+            </div>
+
+            <div class="table-container">
+                <table class="tabela-atividades">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tipo</th>
+                            <th>Tema</th>
+                            <th>Responsável</th>
+                            <th>Local</th>
+                            <th>Participantes</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabelaAtividades">
+                        <!-- preenchido pelo JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="lista-vazia hidden" id="listaVazia">
+                <i class="fa-solid fa-people-group"></i>
+                <p>Nenhuma atividade coletiva encontrada.</p>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<div class="modal hidden" id="modalAtividade">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <div>
+                <h2>Registrar Atividade Coletiva</h2>
+                <p>Preencha os dados da atividade realizada ou planejada.</p>
+            </div>
+
+            <button onclick="fecharModalAtividade()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="formAtividade">
+
+            <section class="modal-section">
+                <h3><i class="fa-solid fa-circle-info"></i> Dados da atividade</h3>
+
+                <div class="form-grid three">
+                    <div>
+                        <label>Data da atividade *</label>
+
+                        <div class="calendario-wrapper">
+
+                            <div class="field-icon">
+                                <input
+                                    type="text"
+                                    id="dataAtividade"
+                                    placeholder="dd/mm/aaaa"
+                                    data-calendario
+                                    required
+                                >
+
+                                <button type="button" onclick="abrirCalendario('dataAtividade')">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                </button>
+                            </div>
+
+                            <div class="mini-calendar closed" id="cal-dataAtividade"></div>
+
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Turno *</label>
+                        <select id="turnoAtividade" required>
+                            <option value="">Selecione</option>
+                            <option>Manhã</option>
+                            <option>Tarde</option>
+                            <option>Noite</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Status *</label>
+                        <select id="statusAtividade" required>
+                            <option>Realizada</option>
+                            <option>Planejada</option>
+                            <option>Cancelada</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Tipo da atividade *</label>
+                        <select id="tipoAtividade" required>
+                            <option value="">Selecione</option>
+                            <option>Grupo terapêutico</option>
+                            <option>Roda de conversa</option>
+                            <option>Psicoeducação</option>
+                            <option>Oficina terapêutica</option>
+                            <option>Reunião de equipe</option>
+                            <option>Discussão de caso</option>
+                            <option>Matriciamento</option>
+                            <option>Atividade intersetorial</option>
+                            <option>Ação em escola/PSE</option>
+                            <option>Sala de espera</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Tema principal *</label>
+                        <select id="temaAtividade" required>
+                            <option value="">Selecione</option>
+                            <option>Ansiedade</option>
+                            <option>Depressão</option>
+                            <option>Prevenção ao suicídio</option>
+                            <option>Uso de álcool e outras drogas</option>
+                            <option>Violência e cultura da paz</option>
+                            <option>Autocuidado</option>
+                            <option>Habilidades sociais</option>
+                            <option>Saúde mental na escola</option>
+                            <option>Luto</option>
+                            <option>Relações familiares</option>
+                            <option>Processo de trabalho</option>
+                            <option>Discussão de caso / PTS</option>
+                            <option>Educação permanente</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Nº de participantes *</label>
+                        <input type="number" id="numeroParticipantes" min="0" placeholder="Ex: 12" required>
+                    </div>
+
+                    <div>
+                        <label>Responsável principal *</label>
+                        <select id="responsavelAtividade" required>
+                            <option value="">Selecione</option>
+                            <option>Andressa de Sales Fernandes</option>
+                            <option>Mariana Oliveira</option>
+                            <option>Carlos Henrique</option>
+                            <option>Fernanda Souza</option>
+                            <option>Lucas Martins</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Profissionais envolvidos</label>
+                        <input type="text" id="profissionaisEnvolvidos" placeholder="Ex: Andressa, Lucas, Fernanda">
+                    </div>
+
+                    <div>
+                        <label>Local</label>
+                        <input type="text" id="localAtividade" placeholder="Ex: Sala de grupo, escola, recepção">
+                    </div>
+                </div>
+            </section>
+
+            <section class="modal-section">
+                <h3><i class="fa-solid fa-users"></i> Público e contexto</h3>
+
+                <div class="form-grid two">
+                    <div>
+                        <label>Público-alvo</label>
+                        <select id="publicoAlvo">
+                            <option value="">Selecione</option>
+                            <option>Crianças</option>
+                            <option>Adolescentes</option>
+                            <option>Adultos</option>
+                            <option>Idosos</option>
+                            <option>Familiares</option>
+                            <option>Equipe de saúde</option>
+                            <option>Equipe escolar</option>
+                            <option>Comunidade geral</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Programa/estratégia</label>
+                        <select id="programaEstrategia">
+                            <option value="">Não se aplica</option>
+                            <option>PSE - Programa Saúde na Escola</option>
+                            <option>Saúde mental</option>
+                            <option>Prevenção e promoção da saúde</option>
+                            <option>Educação permanente</option>
+                            <option>Intersetorialidade</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>INEP da escola</label>
+                        <input type="text" id="inepEscola" placeholder="Obrigatório quando for PSE">
+                    </div>
+
+                    <div>
+                        <label>Instituição parceira</label>
+                        <input type="text" id="instituicaoParceira" placeholder="Ex: Escola, CRAS, CAPS, UBS">
+                    </div>
+                </div>
+            </section>
+
+            <section class="modal-section">
+                <h3><i class="fa-solid fa-check-double"></i> Recursos e participantes</h3>
+
+                <div class="checkbox-grid">
+                    <label><input type="checkbox" value="Dinâmica de grupo"> Dinâmica de grupo</label>
+                    <label><input type="checkbox" value="Escuta qualificada"> Escuta qualificada</label>
+                    <label><input type="checkbox" value="Material educativo"> Material educativo</label>
+                    <label><input type="checkbox" value="Técnicas de relaxamento"> Técnicas de relaxamento</label>
+                    <label><input type="checkbox" value="Roda de conversa"> Roda de conversa</label>
+                    <label><input type="checkbox" value="Orientações psicológicas"> Orientações psicológicas</label>
+                </div>
+
+                <div class="participantes-box">
+                    <div class="participantes-header">
+                        <h4>Participantes identificados</h4>
+
+                        <button type="button" onclick="adicionarParticipante()">
+                            <i class="fa-solid fa-user-plus"></i>
+                            Adicionar participante
+                        </button>
+                    </div>
+
+                    <div id="listaParticipantes">
+                        <!-- participantes adicionados pelo JS -->
+                    </div>
+                </div>
+            </section>
+
+            <section class="modal-section">
+                <h3><i class="fa-solid fa-pen-to-square"></i> Anotações</h3>
+
+                <div>
+                    <label>Descrição da atividade</label>
+                    <textarea id="descricaoAtividade" rows="4" placeholder="Descreva como a atividade foi conduzida, objetivos e principais pontos trabalhados."></textarea>
+                </div>
+
+                <div>
+                    <label>Observações/encaminhamentos</label>
+                    <textarea id="observacoesAtividade" rows="4" placeholder="Registre encaminhamentos, demandas identificadas ou observações relevantes."></textarea>
+                </div>
+            </section>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancelar" onclick="fecharModalAtividade()">
+                    Cancelar
+                </button>
+
+                <button type="reset" class="btn-limpar">
+                    Limpar
+                </button>
+
+                <button type="button" class="btn-salvar" onclick="salvarAtividade()">
+                    <i class="fa-solid fa-check"></i>
+                    Salvar atividade
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="atividade-coletiva.js"></script>
+
+</body>
+</html>

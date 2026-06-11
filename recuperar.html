@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recuperação de senha</title>
+
+    <link rel="stylesheet" href="recuperar.css">
+
+    <!-- Ícones -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LADO ESQUERDO -->
+        <div class="left">
+
+            <div class="logo">
+                <img src="logosantacasa.webp" alt="Logo">
+            </div>
+
+            <h1>
+                Recupere o acesso<br>
+                à sua conta
+            </h1>
+
+            <div class="email-info">
+
+                <img src="email.png" class="image-email">
+
+                <p>
+                    Informe seu e-mail cadastrado que enviaremos
+                    um link para redefinir sua senha com segurança.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- LADO DIREITO -->
+        <div class="right">
+
+            <div class="card">
+
+                <a href="login.html" class="back">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Voltar para o login
+                </a>
+
+                <h2>Recuperação de senha</h2>
+
+                <p class="subtitle">
+                    Digite o e-mail da sua conta que enviaremos
+                    um link para você redefinir sua senha.
+                </p>
+
+                <label>E-mail cadastrado *</label>
+
+                <div class="input-box">
+                    <i class="fa-regular fa-envelope"></i>
+
+                    <input type="email"
+                    placeholder="seu@email.com">
+                </div>
+
+                <!-- ALERTA -->
+                <div class="alert">
+
+                    <div class="icon">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </div>
+
+                    <div>
+                        <h3>Não encontrou o e-mail?</h3>
+
+                        <p>
+                            Verifique sua caixa de spam ou entre
+                            em contato com o administrador do sistema.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- BOTÃO -->
+                <button onclick="enviarEmail()">
+
+                    <i class="fa-regular fa-paper-plane"></i>
+
+                    Enviar link de recuperação
+
+                </button>
+
+                <div class="divider">
+                    <span>ou</span>
+                </div>
+
+                <div class="security">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    Seus dados estão protegidos com segurança.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="loginjav.js"></script>
+
+</body>
+</html>

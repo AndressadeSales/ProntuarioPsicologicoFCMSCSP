@@ -1,0 +1,346 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7f5;
+    overflow-x:hidden;
+    color:#111827;
+}
+
+/* ==========================================
+   CABEÇALHO
+========================================== */
+
+.cabecalho-configuracoes{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.icone-configuracoes{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#e8f5ee;
+    color:#007A33;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.icone-configuracoes i{
+    font-size:32px;
+}
+
+.cabecalho-configuracoes h2{
+    font-size:32px;
+    color:#1f2937;
+    margin-bottom:5px;
+}
+
+.cabecalho-configuracoes p{
+    color:#6b7280;
+}
+
+/* ==========================================
+   LAYOUT
+========================================== */
+
+.config-layout{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:25px;
+}
+
+/* ==========================================
+   MENU LATERAL CONFIGURAÇÕES
+========================================== */
+
+.menu-config{
+    background:#fff;
+    border-radius:16px;
+    padding:15px;
+    border:1px solid #d9e7de;
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+    height:max-content;
+}
+
+.aba-config{
+    width:100%;
+    border:none;
+    background:transparent;
+
+    padding:14px;
+    border-radius:10px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    cursor:pointer;
+
+    color:#374151;
+    font-size:15px;
+    font-weight:500;
+
+    transition:0.2s;
+}
+
+.aba-config:hover{
+    background:#eef7f1;
+}
+
+.aba-config.active{
+    background:#007A33;
+    color:white;
+}
+
+.aba-config i{
+    width:18px;
+}
+
+/* ==========================================
+   CONTEÚDO
+========================================== */
+
+.conteudo-config{
+    background:#fff;
+    border-radius:16px;
+    border:1px solid #d9e7de;
+    padding:25px;
+}
+
+.painel-config{
+    display:none;
+}
+
+.painel-config.active{
+    display:block;
+}
+
+.painel-config h3{
+    color:#007A33;
+    margin-bottom:25px;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+/* ==========================================
+   FORMULÁRIOS
+========================================== */
+
+.form-grid{
+    display:grid;
+    gap:18px;
+}
+
+.form-grid.one{
+    grid-template-columns:1fr;
+}
+
+.form-grid.two{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.form-grid.three{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.form-grid label{
+    display:block;
+    margin-bottom:6px;
+    font-weight:600;
+    color:#374151;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #d1d5db;
+    border-radius:10px;
+
+    font-size:14px;
+
+    transition:0.2s;
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus{
+
+    outline:none;
+    border-color:#007A33;
+
+    box-shadow:0 0 0 3px rgba(0,122,51,0.1);
+}
+
+.form-grid textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+/* ==========================================
+   CHECKBOXES
+========================================== */
+
+.checkbox-lista{
+    margin-top:20px;
+
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.checkbox-lista label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    cursor:pointer;
+
+    color:#374151;
+}
+
+.checkbox-lista input[type="checkbox"]{
+    width:18px;
+    height:18px;
+    accent-color:#007A33;
+}
+
+/* ==========================================
+   BOTÕES
+========================================== */
+
+.botoes-linha{
+    margin-top:25px;
+
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn-principal,
+.btn-secundario,
+.btn-perigo{
+
+    border:none;
+    border-radius:10px;
+
+    padding:12px 18px;
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    cursor:pointer;
+    font-weight:600;
+
+    transition:0.2s;
+}
+
+.btn-principal{
+    background:#007A33;
+    color:white;
+}
+
+.btn-principal:hover{
+    background:#006228;
+}
+
+.btn-secundario{
+    background:#eef7f1;
+    color:#007A33;
+}
+
+.btn-secundario:hover{
+    background:#dff1e5;
+}
+
+.btn-perigo{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.btn-perigo:hover{
+    background:#fecaca;
+}
+
+/* ==========================================
+   RODAPÉ
+========================================== */
+
+.footer-config{
+    margin-top:25px;
+
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+}
+
+/* ==========================================
+   RESPONSIVO
+========================================== */
+
+@media (max-width: 1200px){
+
+    .config-layout{
+        grid-template-columns:1fr;
+    }
+
+    .menu-config{
+        flex-direction:row;
+        overflow-x:auto;
+    }
+
+    .aba-config{
+        white-space:nowrap;
+    }
+}
+
+@media (max-width: 768px){
+
+    .cabecalho-configuracoes{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .form-grid.two,
+    .form-grid.three{
+        grid-template-columns:1fr;
+    }
+
+    .footer-config{
+        flex-direction:column;
+    }
+
+    .footer-config button{
+        width:100%;
+        justify-content:center;
+    }
+
+    .botoes-linha{
+        flex-direction:column;
+    }
+
+    .botoes-linha button{
+        width:100%;
+        justify-content:center;
+    }
+}

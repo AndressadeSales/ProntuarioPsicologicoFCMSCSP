@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Aluno - PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+            document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="adicionar-aluno.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="cabecalho-aluno">
+            <div class="icone-aluno">
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+
+            <div>
+                <h2>Adicionar Aluno</h2>
+                <p>Cadastre alunos, estagiários ou estudantes vinculados à unidade.</p>
+            </div>
+        </div>
+
+        <form class="form-aluno" id="formAluno">
+
+            <section class="card">
+                <h3>
+                    <i class="fa-solid fa-user"></i>
+                    Dados Pessoais
+                </h3>
+
+                <div class="grid-form">
+                    <div class="campo col-2">
+                        <label for="nomeAluno">Nome completo</label>
+                        <input type="text" id="nomeAluno" placeholder="Digite o nome completo">
+                    </div>
+
+                    <div class="campo">
+                        <label for="cpfAluno">CPF</label>
+                        <input type="text" id="cpfAluno" placeholder="000.000.000-00">
+                    </div>
+
+                    <div>
+                        <label>Data de nascimento</label>
+
+                        <div class="calendario-wrapper">
+
+                            <div class="field-icon">
+                                <input
+                                type="text"
+                                id="dataNascimento"
+                                placeholder="dd/mm/aaaa"
+                                data-calendario
+                                >
+
+                                <button type="button" onclick="abrirCalendario('dataNascimento')">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                </button>
+                            </div>
+
+                            <div class="mini-calendar closed" id="cal-dataNascimento"></div>
+                        
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="sexoAluno">Sexo</label>
+                        <select id="sexoAluno">
+                            <option value="">Selecione</option>
+                            <option>Feminino</option>
+                            <option>Masculino</option>
+                            <option>Outro</option>
+                            <option>Não informado</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="telefoneAluno">Telefone</label>
+                        <input type="text" id="telefoneAluno" placeholder="(00) 00000-0000">
+                    </div>
+
+                    <div class="campo">
+                        <label for="emailAluno">E-mail</label>
+                        <input type="email" id="emailAluno" placeholder="email@exemplo.com">
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    Dados Acadêmicos
+                </h3>
+
+                <div class="grid-form">
+                    <div class="campo">
+                        <label for="tipoAluno">Tipo de vínculo</label>
+                        <select id="tipoAluno">
+                            <option value="">Selecione</option>
+                            <option>Aluno</option>
+                            <option>Estagiário</option>
+                            <option>Residente</option>
+                            <option>Aluno técnico</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="cursoAluno">Curso</label>
+                        <input type="text" id="cursoAluno" placeholder="Ex: Psicologia">
+                    </div>
+
+                    <div class="campo">
+                        <label for="instituicaoAluno">Instituição de ensino</label>
+                        <input type="text" id="instituicaoAluno" placeholder="Nome da instituição">
+                    </div>
+
+                    <div class="campo">
+                        <label for="periodoAluno">Período/Semestre</label>
+                        <input type="text" id="periodoAluno" placeholder="Ex: 6º semestre">
+                    </div>
+
+                    <div class="campo">
+                        <label for="matriculaAluno">Matrícula</label>
+                        <input type="text" id="matriculaAluno" placeholder="Número da matrícula">
+                    </div>
+
+                    <div class="campo">
+                        <label for="dataInicioAluno">Data de início</label>
+                        <input type="date" id="dataInicioAluno">
+                    </div>
+
+                    <div class="campo">
+                        <label for="dataFimAluno">Data prevista de término</label>
+                        <input type="date" id="dataFimAluno">
+                    </div>
+
+                    <div class="campo">
+                        <label for="cargaHorariaAluno">Carga horária</label>
+                        <input type="text" id="cargaHorariaAluno" placeholder="Ex: 20h semanais">
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3>
+                    <i class="fa-solid fa-user-tie"></i>
+                    Supervisão
+                </h3>
+
+                <div class="grid-form">
+                    <div class="campo">
+                        <label for="supervisorAluno">Supervisor responsável</label>
+                        <select id="supervisorAluno">
+                            <option value="">Selecione</option>
+                            <option>Andressa de Sales Fernandes</option>
+                            <option>Mariana Oliveira</option>
+                            <option>Carlos Henrique</option>
+                            <option>Fernanda Souza</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="setorAluno">Equipe/Setor</label>
+                        <select id="setorAluno">
+                            <option value="">Selecione</option>
+                            <option>Psicologia</option>
+                            <option>Medicina</option>
+                            <option>Enfermagem</option>
+                            <option>Recepção</option>
+                            <option>Administração</option>
+                        </select>
+                    </div>
+
+                    <div class="campo col-2">
+                        <label for="atividadesAluno">Atividades permitidas</label>
+                        <textarea id="atividadesAluno" rows="4" placeholder="Descreva as atividades que o aluno poderá acompanhar ou realizar"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3>
+                    <i class="fa-solid fa-location-dot"></i>
+                    Endereço
+                </h3>
+
+                <div class="grid-form">
+                    <div class="campo">
+                        <label for="cepAluno">CEP</label>
+                        <input type="text" id="cepAluno" placeholder="00000-000">
+                    </div>
+
+                    <div class="campo col-2">
+                        <label for="enderecoAluno">Endereço</label>
+                        <input type="text" id="enderecoAluno" placeholder="Rua, avenida, número">
+                    </div>
+
+                    <div class="campo">
+                        <label for="bairroAluno">Bairro</label>
+                        <input type="text" id="bairroAluno" placeholder="Bairro">
+                    </div>
+
+                    <div class="campo">
+                        <label for="cidadeAluno">Cidade</label>
+                        <input type="text" id="cidadeAluno" placeholder="Cidade">
+                    </div>
+
+                    <div class="campo">
+                        <label for="ufAluno">UF</label>
+                        <select id="ufAluno">
+                            <option value="">UF</option>
+                            <option>SP</option>
+                            <option>MG</option>
+                            <option>RJ</option>
+                            <option>PR</option>
+                            <option>MS</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3>
+                    <i class="fa-solid fa-lock"></i>
+                    Acesso ao Sistema
+                </h3>
+
+                <div class="grid-form">
+                    <div class="campo">
+                        <label for="usuarioAluno">Usuário</label>
+                        <input type="text" id="usuarioAluno" placeholder="nome.usuario">
+                    </div>
+
+                    <div class="campo">
+                        <label for="perfilAluno">Perfil de acesso</label>
+                        <select id="perfilAluno">
+                            <option value="">Selecione</option>
+                            <option>Aluno observador</option>
+                            <option>Aluno técnico</option>
+                            <option>Estagiário</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="statusAluno">Status</label>
+                        <select id="statusAluno">
+                            <option>Ativo</option>
+                            <option>Inativo</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3>
+                    <i class="fa-solid fa-note-sticky"></i>
+                    Observações
+                </h3>
+
+                <div class="campo">
+                    <label for="observacoesAluno">Observações gerais</label>
+                    <textarea id="observacoesAluno" rows="5" placeholder="Digite observações importantes sobre o aluno"></textarea>
+                </div>
+            </section>
+
+            <div class="acoes-form">
+                <button type="button" class="btn-secundario" onclick="window.location.href='lista-colaboradores.html'">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Voltar
+                </button>
+
+                <button type="reset" class="btn-limpar">
+                    <i class="fa-solid fa-eraser"></i>
+                    Limpar
+                </button>
+
+                <button type="button" class="btn-salvar" onclick="salvarAluno()">
+                    <i class="fa-solid fa-check"></i>
+                    Salvar aluno
+                </button>
+            </div>
+
+        </form>
+
+    </main>
+
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="adicionar-aluno.js"></script>
+
+</body>
+</html>

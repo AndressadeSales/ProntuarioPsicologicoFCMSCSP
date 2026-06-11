@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+        document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+    
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="agenda.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" class="logout" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+    <ul>
+        <li class="active" onclick="window.location.href='agenda.html'">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span class="text">Agenda</span>
+        </li>
+
+        <li onclick="window.location.href='lista-atendimento.html'">
+            <i class="fa-solid fa-list-check"></i>
+            <span class="text">Lista de Atendimento</span>
+        </li>
+
+        <li onclick="window.location.href='prontuarios.html'">
+            <i class="fa-solid fa-file-medical"></i>
+            <span class="text">Prontuários</span>
+        </li>
+
+        <li onclick="window.location.href='lista-colaboradores.html'">
+            <i class="fa-solid fa-users-gear"></i>
+            <span class="text">Colaboradores</span>
+        </li>
+
+        <li onclick="window.location.href='adicionar-paciente.html'">
+            <i class="fa-solid fa-user-plus"></i>
+            <span class="text">Adicionar Paciente</span>
+        </li>
+
+        <li onclick="window.location.href='adicionar-colaborador.html'">
+            <i class="fa-solid fa-user-doctor"></i>
+            <span class="text">Adicionar Colaborador</span>
+        </li>
+
+        <li onclick="window.location.href='adicionar-aluno.html'">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span class="text">Adicionar Aluno</span>
+        </li>
+
+        <li onclick="window.location.href='atividade-coletiva.html'">
+            <i class="fa-solid fa-people-group"></i>
+            <span class="text">Atividade Coletiva</span>
+        </li>
+
+        <li onclick="window.location.href='relatorios.html'">
+            <i class="fa-solid fa-chart-column"></i>
+            <span class="text">Relatórios</span>
+        </li>
+
+        <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+        </li>
+
+        <li onclick="window.location.href='configuracoes.html'">
+            <i class="fa-solid fa-gear"></i>
+            <span class="text">Configurações</span>
+        </li>
+    </ul>
+    </aside>
+
+    <main class="content">
+
+        <div class="agenda-layout">
+
+            <aside class="month-panel">
+
+                <div class="calendar-box">
+
+                    <div class="calendar-header">
+                        <button onclick="irParaHoje()">Hoje</button>
+
+                        <i class="fa-solid fa-chevron-left" onclick="mudarMes(-1)"></i>
+
+                        <strong id="mesAnoCalendario"></strong>
+
+                        <i class="fa-solid fa-chevron-right" onclick="mudarMes(1)"></i>
+                    </div>
+
+                    <div class="week-days">
+                        <span>D</span>
+                        <span>S</span>
+                        <span>T</span>
+                        <span>Q</span>
+                        <span>Q</span>
+                        <span>S</span>
+                        <span>S</span>
+                    </div>
+
+                    <div class="calendar-days" id="diasCalendario"></div>
+
+                </div>
+
+                <div class="patient-search-panel">
+                    <label>Agenda do paciente</label>
+
+                    <div class="patient-search-input">
+                        <input type="text" placeholder="Buscar paciente">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+
+            </aside>
+
+            <section class="agenda-main">
+
+                <div class="professional-selector">
+
+                    <div class="professional-top">
+                        <button class="nav-btn" onclick="mudarDia(-1)">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+
+                        <button class="nav-btn" onclick="mudarDia(1)">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                        <h3 id="dataAtual"></h3>
+                    </div>
+
+                    <div class="professional-search-area">
+
+                        <div class="professional-search">
+                            <input
+                                type="text"
+                                id="campoProfissional"
+                                placeholder="Busque profissional"
+                                readonly
+                            >
+
+                            <i
+                                class="fa-solid fa-chevron-down toggle-arrow rotated"
+                                onclick="toggleProfissionais()"
+                                id="setaProfissionais">
+                            </i>
+                        </div>
+
+                        <div class="professional-actions">
+                            <button class="icon-action" onclick="imprimirAgenda()" title="Imprimir agenda">
+                                <i class="fa-solid fa-print"></i>
+                            </button>
+
+                            <button class="icon-action" onclick="abrirConfiguracaoAgenda()" title="Configuração da agenda">
+                                <i class="fa-solid fa-gear"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="professional-info" id="infoProfissional"></div>
+
+                    <div class="professional-list closed" id="listaProfissionais"></div>
+
+                </div>
+
+                <div class="schedule" id="agendaHorarios"></div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+<!-- MODAL AGENDAMENTO -->
+
+<div class="modal" id="modalAgendamento">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 id="tituloModal">Novo agendamento</h2>
+
+            <button onclick="fecharModalAgendamento()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="tipo-agendamento">
+            <button class="tipo-btn active" onclick="selecionarTipo(this, 'Consulta')">Consulta</button>
+            <button class="tipo-btn" onclick="selecionarTipo(this, 'Reserva')">Reserva</button>
+            <button class="tipo-btn" onclick="selecionarTipo(this, 'Entre profissionais')">Entre profissionais</button>
+        </div>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Data *</label>
+
+                <div class="field-icon">
+                    <input type="text" id="modalData" readonly>
+
+                    <button type="button" onclick="toggleMiniCalendario()">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </button>
+                </div>
+
+                <div class="mini-calendar closed" id="miniCalendario"></div>
+            </div>
+
+            <div>
+                <label>Horário inicial *</label>
+
+                <div class="field-icon">
+                    <input type="text" id="modalHorario" readonly>
+
+                    <button type="button" onclick="limparHorario('modalHorario')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                    <button type="button" onclick="toggleDropdownHorario('dropdownHorarioInicial')">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <div class="time-dropdown closed" id="dropdownHorarioInicial"></div>
+            </div>
+
+            <div>
+                <label>Horário final *</label>
+
+                <div class="field-icon">
+                    <input type="text" id="modalHorarioFinal" readonly>
+
+                    <button type="button" onclick="limparHorario('modalHorarioFinal')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                    <button type="button" onclick="toggleDropdownHorario('dropdownHorarioFinal')">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <div class="time-dropdown closed" id="dropdownHorarioFinal"></div>
+            </div>
+
+        </div>
+
+        <div id="areaTipoAtendimento">
+            <label>Tipo de atendimento *</label>
+
+            <div class="select-custom" onclick="toggleTipoAtendimento()">
+                <span id="textoTipoAtendimento">Consulta presencial</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="select-options closed" id="opcoesTipoAtendimento">
+                <div onclick="selecionarTipoAtendimento('Consulta presencial')">
+                    <i class="fa-solid fa-hospital"></i>
+                    Consulta presencial
+                </div>
+
+                <div onclick="selecionarTipoAtendimento('Consulta via videochamada')">
+                    <i class="fa-solid fa-video"></i>
+                    Consulta via videochamada
+                </div>
+            </div>
+        </div>
+
+        <div id="camposConsulta">
+            <div class="form-grid">
+                <div>
+                    <label>Cidadão *</label>
+                    <input type="text" id="modalCidadao" placeholder="Pesquise pelo nome, CPF ou CNS">
+                </div>
+
+                <div>
+                    <label>Telefone celular</label>
+                    <input type="text" id="modalTelefone" placeholder="(00) 00000-0000">
+                </div>
+
+                <div>
+                    <label>E-mail</label>
+                    <input type="email" id="modalEmail" placeholder="email@exemplo.com">
+                </div>
+            </div>
+        </div>
+
+        <div id="camposEntreProfissionais" class="hidden">
+
+            <h3 class="section-title">Dados do cidadão</h3>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Cidadão *</label>
+                    <input
+                        type="text"
+                        id="modalCidadaoEntre"
+                        placeholder="Pesquise pelo nome, CPF ou CNS">
+                    </div>
+
+                <div>
+                    <label>Telefone celular</label>
+                    <input
+                        type="text"
+                        id="modalTelefoneEntre"
+                        placeholder="(00) 00000-0000">
+                </div>
+
+                <div>
+                    <label>E-mail</label>
+                    <input
+                        type="email"
+                        id="modalEmailEntre"
+                        placeholder="email@exemplo.com">
+                </div>
+
+            </div>
+
+            <h3 class="section-title profissional-title">
+            Dados do Profissional ou Aluno convidado
+            </h3>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Profissional ou Aluno</label>
+                    <input
+                        type="text"
+                        id="modalProfissionalConvidado"
+                        placeholder="Busque profissional">
+                </div>
+
+                <div>
+                    <label>E-mail profissional</label>
+                    <input
+                        type="email"
+                        id="modalEmailProfissional"
+                        placeholder="email@exemplo.com">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="camposReserva" class="hidden">
+
+            <label>Motivo *</label>
+
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="motivoReserva" value="Reunião" checked>
+                    Reunião
+                </label>
+
+                <label>
+                    <input type="radio" name="motivoReserva" value="Atendimento externo">
+                    Atendimento externo
+                </label>
+
+                <label>
+                    <input type="radio" name="motivoReserva" value="Atividade coletiva">
+                    Atividade coletiva
+                </label>
+
+                <label>
+                    <input type="radio" name="motivoReserva" value="Outros">
+                    Outros
+                </label>
+            </div>
+
+        </div>
+
+        <label>Observações</label>
+        <textarea id="modalObservacoes" maxlength="200" placeholder="Digite observações"></textarea>
+
+        <div class="contador">
+            <span id="contadorObservacoes">0</span>/200 caracteres
+        </div>
+
+        <label class="check-area" id="areaImprimirComprovante">
+            <input type="checkbox" id="modalImprimir" checked>
+            Imprimir comprovante ao salvar
+        </label>
+
+        <div class="modal-footer">
+            <button class="btn-cancelar" onclick="fecharModalAgendamento()">Cancelar</button>
+            <button class="btn-salvar" onclick="salvarAgendamento()">Salvar</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL VISUALIZAR -->
+
+<div class="modal" id="modalVisualizar">
+    <div class="modal-content visualizacao">
+
+        <div class="modal-header">
+            <h2>Visualizar agendamento</h2>
+
+            <button onclick="fecharModalVisualizar()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div id="conteudoVisualizacao"></div>
+
+        <div class="modal-footer">
+            <button class="btn-cancelar" onclick="fecharModalVisualizar()">Fechar</button>
+            <button class="btn-salvar" onclick="imprimirComprovanteVisualizacao()">Imprimir comprovante</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL CANCELAMENTO -->
+
+<div class="modal" id="modalCancelamento">
+    <div class="modal-content small">
+
+        <div class="modal-header">
+            <h2>Cancelar agendamento</h2>
+
+            <button onclick="fecharModalCancelamento()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <label>Justificativa *</label>
+        <textarea id="justificativaCancelamento" placeholder="Informe o motivo"></textarea>
+
+        <p class="erro" id="erroJustificativa"></p>
+
+        <div class="modal-footer">
+            <button class="btn-cancelar" onclick="fecharModalCancelamento()">Voltar</button>
+            <button class="btn-danger" onclick="confirmarCancelamento()">Confirmar cancelamento</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL MENSAGEM -->
+
+<div class="modal" id="modalMensagem">
+    <div class="modal-content small">
+
+        <div class="modal-header">
+            <h2 id="tituloMensagem">Mensagem</h2>
+
+            <button onclick="fecharMensagem()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <p id="textoMensagem"></p>
+
+        <div class="modal-footer">
+            <button class="btn-salvar" onclick="fecharMensagem()">OK</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL CONFIRMAÇÃO -->
+
+<div class="modal" id="modalConfirmacao">
+    <div class="modal-content small">
+
+        <div class="modal-header">
+            <h2 id="tituloConfirmacao">Confirmar ação</h2>
+
+            <button onclick="fecharConfirmacao()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <p id="textoConfirmacao"></p>
+
+        <div class="modal-footer">
+            <button class="btn-cancelar" onclick="fecharConfirmacao()">Cancelar</button>
+            <button class="btn-danger" id="btnConfirmarAcao">Confirmar</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL CONFIGURAÇÃO DA AGENDA -->
+
+<div class="modal" id="modalConfiguracaoAgenda">
+    <div class="modal-content small">
+
+        <div class="modal-header">
+            <h2>Configuração da agenda</h2>
+
+            <button type="button" onclick="fecharConfiguracaoAgenda()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <p id="textoConfiguracaoAgenda"
+           style="margin-bottom:24px;color:#4b5563;font-size:14px;">
+        </p>
+
+        <div class="form-grid">
+
+            <div>
+                <label>Horário inicial da agenda *</label>
+
+                <div class="field-icon">
+                    <input type="text" id="configInicioAgenda" readonly value="07:00">
+
+                    <button type="button" onclick="toggleDropdownHorario('dropdownInicioAgenda')">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <div class="time-dropdown closed" id="dropdownInicioAgenda"></div>
+            </div>
+
+            <div>
+                <label>Horário final da agenda *</label>
+
+                <div class="field-icon">
+                    <input type="text" id="configFimAgenda" readonly value="18:00">
+
+                    <button type="button" onclick="toggleDropdownHorario('dropdownFimAgenda')">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <div class="time-dropdown closed" id="dropdownFimAgenda"></div>
+            </div>
+
+            <div>
+                <label>Intervalo entre atendimentos *</label>
+
+                <div class="field-icon">
+                    <input type="text" id="configIntervalo" readonly value="60 min">
+
+                    <button type="button" onclick="toggleDropdownHorario('dropdownIntervalo')">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <div class="time-dropdown closed" id="dropdownIntervalo">
+                    <div onclick="selecionarIntervalo('15 min')">15 min</div>
+                    <div onclick="selecionarIntervalo('20 min')">20 min</div>
+                    <div onclick="selecionarIntervalo('30 min')">30 min</div>
+                    <div onclick="selecionarIntervalo('40 min')">40 min</div>
+                    <div onclick="selecionarIntervalo('60 min')">60 min</div>
+                </div>
+            </div>
+
+            <div></div>
+
+            <div>
+                <label>Início do almoço *</label>
+
+                <div class="field-icon">
+                    <input type="text" id="configInicioAlmoco" readonly value="12:00">
+
+                    <button type="button" onclick="toggleDropdownHorario('dropdownInicioAlmoco')">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <div class="time-dropdown closed" id="dropdownInicioAlmoco"></div>
+            </div>
+
+            <div>
+                <label>Fim do almoço *</label>
+
+                <div class="field-icon">
+                    <input type="text" id="configFimAlmoco" readonly value="13:00">
+
+                    <button type="button" onclick="toggleDropdownHorario('dropdownFimAlmoco')">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+
+                <div class="time-dropdown closed" id="dropdownFimAlmoco"></div>
+            </div>
+
+        </div>
+
+        <div style="
+            margin-top:24px;
+            padding:14px 16px;
+            background:#f3f4f6;
+            border-left:4px solid #6b7280;
+            border-radius:6px;
+            font-size:14px;
+            color:#374151;
+            line-height:1.5;
+        ">
+            Os horários do almoço ficarão bloqueados automaticamente e não poderão receber novos agendamentos.
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-cancelar" type="button" onclick="fecharConfiguracaoAgenda()">
+                Cancelar
+            </button>
+
+            <button class="btn-salvar" type="button" onclick="salvarConfiguracaoAgenda()">
+                Salvar configuração
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script src="layout.js"></script>
+<script src="agenda.js"></script>
+
+</body>
+</html>

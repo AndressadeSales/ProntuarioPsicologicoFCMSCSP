@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Prontuário - PsiSaúde</title>
+
+    <script>
+        if (localStorage.getItem("sidebarClosed") === "true") {
+        document.documentElement.classList.add("sidebar-fechada");
+        }
+    </script>
+
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="calendario.css">
+    <link rel="stylesheet" href="visualizar-prontuario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="top-left">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <h1>PsiSaúde</h1>
+    </div>
+
+    <div class="top-right">
+        <i class="fa-solid fa-bell"></i>
+
+        <div class="user-menu">
+            <div class="user-trigger" onclick="toggleUserMenu()">
+                <i class="fa-solid fa-user"></i>
+
+                <div class="user-info">
+                    <strong id="nomeUsuarioTopo">Usuário</strong>
+                    <span id="cargoUsuarioTopo">Função</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="#"><i class="fa-solid fa-location-dot"></i>Acessos</a>
+                <a href="#"><i class="fa-solid fa-right-left"></i>Trocar acesso</a>
+                <a href="#"><i class="fa-solid fa-key"></i>Alterar senha</a>
+                <a href="#"><i class="fa-solid fa-link"></i>Links úteis</a>
+                <a href="#"><i class="fa-solid fa-circle-info"></i>Sobre</a>
+                <a href="#"><i class="fa-solid fa-file-contract"></i>Termos de uso</a>
+
+                <hr>
+
+                <a href="#" onclick="sair()">
+                    <i class="fa-solid fa-right-from-bracket"></i>Sair
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li onclick="window.location.href='agenda.html'">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span class="text">Agenda</span>
+            </li>
+
+            <li onclick="window.location.href='lista-atendimento.html'">
+                <i class="fa-solid fa-list-check"></i>
+                <span class="text">Lista de Atendimento</span>
+            </li>
+
+            <li class="active" onclick="window.location.href='prontuarios.html'">
+                <i class="fa-solid fa-file-medical"></i>
+                <span class="text">Prontuários</span>
+            </li>
+
+            <li onclick="window.location.href='lista-colaboradores.html'">
+                <i class="fa-solid fa-users-gear"></i>
+                <span class="text">Colaboradores</span>
+            </li>
+        
+            <li onclick="window.location.href='adicionar-paciente.html'">
+                <i class="fa-solid fa-user-plus"></i>
+                <span class="text">Adicionar Paciente</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-colaborador.html'">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span class="text">Adicionar Colaborador</span>
+            </li>
+
+            <li onclick="window.location.href='adicionar-aluno.html'">
+                <i class="fa-solid fa-user-graduate"></i>
+                <span class="text">Adicionar Aluno</span>
+            </li>
+
+            <li onclick="window.location.href='atividade-coletiva.html'">
+                <i class="fa-solid fa-people-group"></i>
+                <span class="text">Atividade Coletiva</span>
+            </li>
+
+            <li onclick="window.location.href='relatorios.html'">
+                <i class="fa-solid fa-chart-column"></i>
+                <span class="text">Relatórios</span>
+            </li>
+
+            <li onclick="window.location.href='auditoria.html'">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span class="text">Auditoria</span>
+            </li>
+
+            <li onclick="window.location.href='configuracoes.html'">
+                <i class="fa-solid fa-gear"></i>
+                <span class="text">Configurações</span>
+            </li>
+        </ul>
+    </aside>
+
+    <main class="content">
+
+        <button class="btn-voltar" onclick="voltarProntuarios()">
+            <i class="fa-solid fa-arrow-left"></i>
+            Voltar para Prontuários
+        </button>
+
+        <section class="paciente-header">
+            <div>
+                <h2 id="pacienteNome">Paciente</h2>
+                <p>Prontuário psicológico do paciente.</p>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn-outline" onclick="novoAtendimento()">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    Novo Atendimento
+                </button>
+
+                <button class="btn-secondary" onclick="imprimirProntuario()">
+                    <i class="fa-solid fa-print"></i>
+                    Imprimir Prontuário
+                </button>
+            </div>
+        </section>
+
+        <section class="tabs-card">
+            <div class="tabs">
+
+                <button class="tab-btn active" onclick="abrirAba('folha-rosto', this)">
+                    <i class="fa-solid fa-file-medical"></i>
+                    Folha de Rosto
+                </button>
+
+                <button class="tab-btn" onclick="abrirAba('dados-pessoais', this)">
+                    <i class="fa-solid fa-id-card"></i>
+                    Dados Pessoais
+                </button>
+
+                <button class="tab-btn" onclick="abrirAba('anamnese', this)">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    Anamnese
+                </button>
+
+                <button class="tab-btn" onclick="abrirAba('atendimentos', this)">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    Atendimentos
+                </button>
+
+                <button class="tab-btn" onclick="abrirAba('documentos', this)">
+                    <i class="fa-solid fa-paperclip"></i>
+                    Documentos
+                </button>
+
+                <button class="tab-btn" onclick="abrirAba('encaminhamentos', this)">
+                    <i class="fa-solid fa-share"></i>
+                    Encaminhamentos
+                </button>
+
+                <button class="tab-btn" onclick="abrirAba('agendamentos', this)">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    Agendamentos
+                </button>
+
+            </div>
+        </section>
+
+        <!-- FOLHA DE ROSTO -->
+        <section class="tab-content active" id="aba-folha-rosto">
+
+            <div class="section-title">
+                <h3>Folha de Rosto</h3>
+                <span>Resumo rápido do prontuário</span>
+            </div>
+
+            <div class="folha-grid">
+
+                <div class="folha-coluna folha-maior">
+
+                    <div class="folha-card destaque">
+                        <h4><i class="fa-solid fa-user"></i> Resumo do Paciente</h4>
+
+                        <p><strong>Nome Completo:</strong> <span id="frNome">-</span></p>
+                        <p><strong>CPF:</strong> <span id="frCpf">-</span></p>
+                        <p><strong>CNS:</strong> <span id="frCns">-</span></p>
+                        <p><strong>Data de Nascimento:</strong> <span id="frNascimento">-</span></p>
+                        <p><strong>Idade:</strong> <span id="frIdade">-</span></p>
+                        <p><strong>Sexo:</strong> <span id="frSexo">-</span></p>
+                    </div>
+
+                    <div class="folha-card">
+                        <h4><i class="fa-solid fa-clock-rotate-left"></i> Últimos Atendimentos</h4>
+                        <div id="frUltimosAtendimentos"></div>
+                    </div>
+
+                </div>
+
+                <div class="folha-coluna">
+
+                    <div class="folha-card">
+                        <h4><i class="fa-solid fa-phone"></i> Contato Principal</h4>
+
+                        <p><strong>Telefone:</strong> <span id="frTelefone">-</span></p>
+                        <p><strong>Celular:</strong> <span id="frCelular">-</span></p>
+                        <p><strong>E-mail:</strong> <span id="frEmail">-</span></p>
+                    </div>
+
+                    <div class="folha-card">
+                        <h4><i class="fa-solid fa-clipboard-check"></i> Resumo Assistencial</h4>
+
+                        <p><strong>Último Atendimento:</strong> <span id="frUltimoAtendimento">-</span></p>
+                        <p><strong>Último Profissional:</strong> <span id="frUltimoProfissional">-</span></p>
+                        <p><strong>Próximo Agendamento:</strong> <span id="frProximoAgendamento">-</span></p>
+                        <p><strong>Profissional de Referência:</strong> <span id="frProfReferencia">-</span></p>
+                        <p><strong>Status do Cadastro:</strong> <span id="frStatus" class="badge ativo">Ativo</span></p>
+                    </div>
+
+                    <div class="folha-card">
+                        <h4><i class="fa-solid fa-weight-scale"></i> Medições</h4>
+
+                        <p><strong>Peso:</strong> <span id="frPeso">-</span></p>
+                        <p><strong>Altura:</strong> <span id="frAltura">-</span></p>
+                        <p><strong>IMC:</strong> <span id="frImc">-</span></p>
+                    </div>
+
+                </div>
+
+                <div class="folha-coluna">
+
+                    <div class="folha-card alerta">
+                        <h4><i class="fa-solid fa-triangle-exclamation"></i> Alertas Clínicos</h4>
+
+                        <h5>Alergias</h5>
+                        <div id="frAlergias"></div>
+
+                        <h5>Problemas ativos</h5>
+                        <div id="frProblemas"></div>
+
+                        <h5>Medicações em uso</h5>
+                        <div id="frMedicamentos"></div>
+                    </div>
+
+                    <div class="folha-card">
+                        <h4><i class="fa-solid fa-flask"></i> Últimos Exames</h4>
+                        <div id="frExames"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- DADOS PESSOAIS -->
+        <section class="tab-content" id="aba-dados-pessoais">
+
+            <div class="section-title">
+                <h3>Dados Pessoais</h3>
+                <span>Informações cadastrais do paciente</span>
+            </div>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div>
+                        <i class="fa-solid fa-user"></i>
+                        <strong>Dados Pessoais</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="accordion-content">
+                    <div class="visual-grid">
+                        <div><span>Nome Completo</span><strong id="dpNome">-</strong></div>
+                        <div><span>Nome Social</span><strong id="dpNomeSocial">-</strong></div>
+                        <div><span>CPF</span><strong id="dpCpf">-</strong></div>
+                        <div><span>CNS</span><strong id="dpCns">-</strong></div>
+                        <div><span>Data de Nascimento</span><strong id="dpNascimento">-</strong></div>
+                        <div><span>Sexo</span><strong id="dpSexo">-</strong></div>
+                        <div><span>Raça/Cor</span><strong id="dpRaca">-</strong></div>
+                        <div><span>Etnia</span><strong id="dpEtnia">-</strong></div>
+                        <div><span>Nome da Mãe</span><strong id="dpMae">-</strong></div>
+                        <div><span>Nome do Pai</span><strong id="dpPai">-</strong></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div>
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <strong>Naturalidade</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="accordion-content">
+                    <div class="visual-grid">
+                        <div><span>Nacionalidade</span><strong id="dpNacionalidade">-</strong></div>
+                        <div><span>Município de Nascimento</span><strong id="dpMunicipioNascimento">-</strong></div>
+                        <div><span>UF de Nascimento</span><strong id="dpUfNascimento">-</strong></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div>
+                        <i class="fa-solid fa-phone"></i>
+                        <strong>Contatos</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="accordion-content">
+                    <div class="visual-grid">
+                        <div><span>Telefone Residencial</span><strong id="dpTelefoneResidencial">-</strong></div>
+                        <div><span>Celular</span><strong id="dpCelular">-</strong></div>
+                        <div><span>Telefone para Recado</span><strong id="dpTelefoneRecado">-</strong></div>
+                        <div><span>E-mail</span><strong id="dpEmail">-</strong></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div>
+                        <i class="fa-solid fa-people-group"></i>
+                        <strong>Equipe Responsável</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="accordion-content">
+                    <div class="visual-grid">
+                        <div><span>Unidade de Saúde</span><strong id="dpUnidadeSaude">-</strong></div>
+                        <div><span>Equipe</span><strong id="dpEquipe">-</strong></div>
+                        <div><span>Microárea</span><strong id="dpMicroarea">-</strong></div>
+                        <div><span>Profissional de Referência</span><strong id="dpProfReferencia">-</strong></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div>
+                        <i class="fa-solid fa-house"></i>
+                        <strong>Residência</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="accordion-content">
+                    <div class="visual-grid">
+                        <div><span>CEP</span><strong id="dpCep">-</strong></div>
+                        <div><span>Logradouro</span><strong id="dpLogradouro">-</strong></div>
+                        <div><span>Número</span><strong id="dpNumero">-</strong></div>
+                        <div><span>Complemento</span><strong id="dpComplemento">-</strong></div>
+                        <div><span>Bairro</span><strong id="dpBairro">-</strong></div>
+                        <div><span>Município</span><strong id="dpMunicipio">-</strong></div>
+                        <div><span>UF</span><strong id="dpUf">-</strong></div>
+                        <div><span>Ponto de Referência</span><strong id="dpPontoReferencia">-</strong></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div>
+                        <i class="fa-solid fa-user-shield"></i>
+                        <strong>Dados do Responsável</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="accordion-content" id="blocoResponsavel">
+                    <div class="visual-grid">
+                        <div><span>Nome do Responsável</span><strong id="respNome">-</strong></div>
+                        <div><span>Grau de Parentesco</span><strong id="respParentesco">-</strong></div>
+                        <div><span>CPF</span><strong id="respCpf">-</strong></div>
+                        <div><span>Telefone</span><strong id="respTelefone">-</strong></div>
+                        <div><span>Celular</span><strong id="respCelular">-</strong></div>
+                        <div><span>E-mail</span><strong id="respEmail">-</strong></div>
+                    </div>
+
+                    <div class="campo-texto" id="respObservacoes">-</div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div>
+                        <i class="fa-solid fa-circle-info"></i>
+                        <strong>Informações Complementares</strong>
+                    </div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="accordion-content">
+                    <div class="visual-grid">
+                        <div><span>Estado Civil</span><strong id="dpEstadoCivil">-</strong></div>
+                        <div><span>Escolaridade</span><strong id="dpEscolaridade">-</strong></div>
+                        <div><span>Profissão</span><strong id="dpProfissao">-</strong></div>
+                        <div><span>Religião</span><strong id="dpReligiao">-</strong></div>
+                        <div><span>Tipo Sanguíneo</span><strong id="dpTipoSanguineo">-</strong></div>
+                        <div><span>Orientação Sexual</span><strong id="dpOrientacaoSexual">-</strong></div>
+                        <div><span>Identidade de Gênero</span><strong id="dpIdentidadeGenero">-</strong></div>
+                    </div>
+
+                    <div class="campo-texto" id="dpObservacoesCadastrais">-</div>
+                </div>
+            </section>
+
+        </section>
+
+        <!-- ANAMNESE -->
+        <section class="tab-content" id="aba-anamnese">
+
+            <div class="section-title">
+                <h3>Anamnese</h3>
+                <span id="anamneseAtualizacao">Última atualização: -</span>
+            </div>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-circle-question"></i><strong>Queixa Principal</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="campo-texto" id="anamneseQueixaPrincipal">-</div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-notes-medical"></i><strong>História da Moléstia Atual</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="campo-texto" id="historiaMolestiaAtual">-</div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-people-roof"></i><strong>História Familiar</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="campo-texto" id="historiaFamiliar">-</div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-child-reaching"></i><strong>Histórico de Desenvolvimento</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="campo-texto" id="historicoDesenvolvimento">-</div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-earth-americas"></i><strong>Histórico Pessoal e Social</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="campo-texto" id="historicoPessoalSocial">-</div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-hospital-user"></i><strong>Tratamentos Anteriores</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="campo-texto" id="tratamentosAnteriores">-</div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-weight-scale"></i><strong>Medições</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="visual-grid">
+                        <div><span>Peso</span><strong id="peso">-</strong></div>
+                        <div><span>Altura</span><strong id="altura">-</strong></div>
+                        <div><span>IMC</span><strong id="imc">-</strong></div>
+                    </div>
+                    <div class="campo-texto" id="classificacaoImc">-</div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-triangle-exclamation"></i><strong>Alergias/Reações Adversas</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="lista-itens" id="listaAlergias"></div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-list-check"></i><strong>Lista de Problemas/Condições</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="lista-itens" id="listaProblemas"></div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-flask"></i><strong>Resultados de Exames</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="lista-itens" id="listaResultadosExames"></div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-pills"></i><strong>Medicamentos em Uso</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <div class="accordion-content">
+                    <h4 class="subtitulo">Medicações Psiquiátricas</h4>
+                    <div class="lista-itens" id="listaMedicamentosPsiquiatricos"></div>
+
+                    <h4 class="subtitulo">Medicações Gerais</h4>
+                    <div class="lista-itens" id="listaMedicamentosGerais"></div>
+                </div>
+            </section>
+
+            <section class="accordion">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><i class="fa-solid fa-venus"></i><strong>DUM</strong></div>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <div class="campo-texto" id="dum">-</div>
+                </div>
+            </section>
+
+        </section>
+
+        <!-- ATENDIMENTOS -->
+        <section class="tab-content" id="aba-atendimentos">
+            <div class="section-title">
+                <h3>Atendimentos</h3>
+                <span id="totalAtendimentos">0 registro(s)</span>
+            </div>
+
+            <div class="timeline" id="listaAtendimentos"></div>
+        </section>
+
+        <!-- DOCUMENTOS -->
+        <section class="tab-content" id="aba-documentos">
+            <div class="section-title">
+                <h3>Documentos</h3>
+                <span id="totalDocumentos">0 documento(s)</span>
+            </div>
+
+            <div class="lista-itens" id="listaDocumentos"></div>
+        </section>
+
+        <!-- ENCAMINHAMENTOS -->
+        <section class="tab-content" id="aba-encaminhamentos">
+            <div class="section-title">
+                <h3>Encaminhamentos</h3>
+                <span id="totalEncaminhamentos">0 encaminhamento(s)</span>
+            </div>
+
+            <div class="lista-itens" id="listaEncaminhamentos"></div>
+        </section>
+
+        <!-- AGENDAMENTOS -->
+        <section class="tab-content" id="aba-agendamentos">
+            <div class="section-title">
+                <h3>Agendamentos</h3>
+                <span id="totalAgendamentos">0 agendamento(s)</span>
+            </div>
+
+            <div class="lista-itens" id="listaAgendamentos"></div>
+        </section>
+
+    </main>
+
+</div>
+
+<script src="layout.js"></script>
+<script src="calendario.js"></script>
+<script src="visualizar-prontuario.js"></script>
+
+</body>
+</html>
