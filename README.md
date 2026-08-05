@@ -2,20 +2,20 @@
 
 Sistema desenvolvido para gerenciamento de prontuários psicológicos, com foco na organização das informações clínicas, controle de usuários e apoio ao atendimento em uma clínica-escola.
 
-## 📖 Sobre o projeto
+# 📖 Sobre o projeto
 
 Este projeto foi desenvolvido como parte da graduação em **Análise e Desenvolvimento de Sistemas** na **Faculdade de Ciências Médicas da Santa Casa de São Paulo (FCMSCSP)**.
 
 O objetivo é desenvolver um sistema web que permita o gerenciamento de prontuários psicológicos, facilitando o registro, consulta e administração das informações dos pacientes de forma organizada e segura.
 
-## 🎯 Objetivos
+# 🎯 Objetivos
 
 - Centralizar informações dos pacientes.
 - Facilitar o acompanhamento dos atendimentos.
 - Organizar prontuários psicológicos.
 - Desenvolver uma aplicação com foco em usabilidade.
 
-## 🚀 Tecnologias
+# 🚀 Tecnologias
 
 - HTML5
 - CSS3
@@ -23,7 +23,7 @@ O objetivo é desenvolver um sistema web que permita o gerenciamento de prontuá
 
 *(Adicione outras tecnologias conforme forem sendo utilizadas, como Python, SQL, Flask, etc.)*
 
-## 👥 Perfis de usuários
+# 👥 Perfis de usuários
 
 O sistema prevê diferentes perfis de acesso:
 
@@ -33,7 +33,7 @@ O sistema prevê diferentes perfis de acesso:
 - Estagiário
 - Técnico
 
-## ✨ Funcionalidades
+# ✨ Funcionalidades
 
 - Cadastro de pacientes
 - Cadastro de usuários
@@ -43,11 +43,7 @@ O sistema prevê diferentes perfis de acesso:
 
 *(Atualize esta lista conforme novas funcionalidades forem sendo implementadas.)*
 
-## 📷 Demonstração
-
-Adicione aqui capturas de tela do sistema.
-
-## 📂 Estrutura do projeto
+# 📂 Estrutura do projeto
 
 ```text
 📁 css
@@ -56,7 +52,7 @@ Adicione aqui capturas de tela do sistema.
 📄 index.html
 ```
 
-## ▶️ Como executar
+# ▶️ Como executar
 
 1. Clone este repositório.
 
@@ -66,7 +62,7 @@ git clone https://github.com/AndressadeSales/ProntuarioPsicologico.git
 
 2. Abra o arquivo `index.html`.
 
-## 📈 Status do projeto
+# 📈 Status do projeto
 
 🚧 Em desenvolvimento
 
@@ -80,7 +76,7 @@ git clone https://github.com/AndressadeSales/ProntuarioPsicologico.git
 - [ ] Cadastro de prontuários
 - [ ] Implantação
 
-## 👩‍💻 Desenvolvedora
+# 👩‍💻 Desenvolvedora
 
 **Andressa de Sales**
 
